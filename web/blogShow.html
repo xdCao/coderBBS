@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link type="text/css" rel="stylesheet" href="js/bootstrap-3.3.5-dist/dist/css/bootstrap.css">
+    <script src="js/http_code.jquery.com_jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="js/bootstrap-3.3.5-dist/dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/jquery.form.js"></script>
+
+
+    <title></title>
+    <style>
+        #head{
+            background-color: black;
+            color: white;
+            margin-left: 0;
+            margin-top: 50px;
+            padding: 50px 100px 50px 100px;
+            width: 100%;
+        }
+        #mainBody{
+            padding: 50px 10% 50px 10%;
+            margin-left: 0;
+            width: 100%;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+           var req=new XMLHttpRequest();
+           var id=GetQueryString("id");
+           console.log("id= "+id);
+           req.open("Get","http://localhost:8080/readBlog?id="+id,true);
+           req.send();
+           req.onreadystatechange=function () {
+               if (req.readyState==4 && req.status==200){
+                   var post=JSON.parse(req.responseText);
+                   document.getElementById("title").innerHTML=post[0]["title"];
+                   document.getElementById("author").innerHTML=post[0]["author"];
+                   document.getElementById("date").innerHTML=(parseInt(post[0]["createDate"]["year"])%100+2000)+"-"+(parseInt(post[0]["createDate"]["month"])+1)+"-"+post[0]["createDate"]["day"];
+                   document.getElementById("scan").innerHTML=post[0]["scan"];
+                   document.getElementById("save").innerHTML=post[0]["favor"];
+                   document.getElementById("content").innerHTML=post[0]["content"];
+               }
+           };
+
+        });
+
+
+        function GetQueryString(name)
+        {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r!=null)return  unescape(r[2]); return null;
+        }
+
+
+    </script>
+
+</head>
+<body>
+<nav class="top_bar navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">CoderBBS</a>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a id="registGo" href="#"><span class="glyphicon glyphicon-user"></span>注册</a></li>
+            <li><a id="loginGo" href="#"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="head">
+            <div>
+                <h1 id="title" class="text-left">title</h1>
+            </div>
+            <div id="author" class="text-right">caohao</div>
+            <div id="date" class="text-right">2017-11-22</div>
+            <hr>
+            <div class="text-center">
+                <label>查阅：</label>
+                <span id="scan">11</span>
+            </div>
+            <div class="text-center">
+                <label>收藏：</label>
+                <span id="save">22</span>
+            </div>
+
+        </div>
+
+        <div id="mainBody">
+            <div id="content"></div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+</body>
+</html>

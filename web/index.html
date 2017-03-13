@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Coder BBS 首页</title>
+
+    <style>
+        .carousel {
+            height: 300px;
+        }
+        .carousel .item {
+            height: 300px;
+        }
+        .carousel .item img {
+            width: 100%;
+        }
+        .form-horizontal{
+            background: #fff;
+            padding-bottom: 40px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        .form-horizontal .heading{
+            display: block;
+            font-size: 35px;
+            font-weight: 700;
+            padding: 35px 0;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 30px;
+        }
+        .form-horizontal .form-group{
+            padding: 0 40px;
+            margin: 0 0 25px 0;
+            position: relative;
+        }
+        .form-horizontal .form-control{
+            background: #f0f0f0;
+            border: none;
+            border-radius: 20px;
+            box-shadow: none;
+            padding: 0 20px 0 45px;
+            height: 40px;
+            transition: all 0.3s ease 0s;
+        }
+        .form-horizontal .form-control:focus{
+            background: #e0e0e0;
+            box-shadow: none;
+            outline: 0 none;
+        }
+        .form-horizontal .form-group i{
+            position: absolute;
+            top: 12px;
+            left: 60px;
+            font-size: 17px;
+            color: #c8c8c8;
+            transition : all 0.5s ease 0s;
+        }
+        .form-horizontal .form-control:focus + i{
+            color: #00b4ef;
+        }
+        .form-horizontal .fa-question-circle{
+            display: inline-block;
+            position: absolute;
+            top: 12px;
+            right: 60px;
+            font-size: 20px;
+            color: #808080;
+            transition: all 0.5s ease 0s;
+        }
+        .form-horizontal .fa-question-circle:hover{
+            color: #000;
+        }
+        .form-horizontal .main-checkbox{
+            float: left;
+            width: 20px;
+            height: 20px;
+            background: #11a3fc;
+            border-radius: 50%;
+            position: relative;
+            margin: 5px 0 0 5px;
+            border: 1px solid #11a3fc;
+        }
+        .form-horizontal .main-checkbox label{
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+        }
+        .form-horizontal .main-checkbox label:after{
+            content: "";
+            width: 10px;
+            height: 5px;
+            position: absolute;
+            top: 5px;
+            left: 4px;
+            border: 3px solid #fff;
+            border-top: none;
+            border-right: none;
+            background: transparent;
+            opacity: 0;
+            -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+        }
+        .form-horizontal .main-checkbox input[type=checkbox]{
+            visibility: hidden;
+        }
+        .form-horizontal .main-checkbox input[type=checkbox]:checked + label:after{
+            opacity: 1;
+        }
+        .form-horizontal .text{
+            float: left;
+            margin-left: 7px;
+            line-height: 20px;
+            padding-top: 5px;
+            text-transform: capitalize;
+        }
+        .form-horizontal .btn{
+            float: right;
+            font-size: 14px;
+            color: #fff;
+            background: #00b4ef;
+            border-radius: 30px;
+            padding: 10px 25px;
+            border: none;
+            text-transform: capitalize;
+            transition: all 0.5s ease 0s;
+        }
+        @media only screen and (max-width: 479px){
+            .form-horizontal .form-group{
+                padding: 0 25px;
+            }
+            .form-horizontal .form-group i{
+                left: 45px;
+            }
+            .form-horizontal .btn{
+                padding: 10px 20px;
+            }
+        }
+        #welcome{
+            display: none;
+            color: white;
+            margin-top: 10px;
+            margin-right: 20px;
+        }
+
+    </style>
+
+    <link type="text/css" rel="stylesheet" href="js/bootstrap-3.3.5-dist/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <script src="js/http_code.jquery.com_jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="js/bootstrap-3.3.5-dist/dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/jquery.form.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            validateLogin();
+
+            //轮播设置
+            $('.carousel').carousel({
+                interval: 2000
+            });
+            //点击弹窗事件
+            $("#registGo").click(function () {
+                $("#registLabel").text("用户注册");
+                $('#registModal').modal();
+            });
+            $("#loginGo").click(function () {
+                $("#loginLabel").text("用户登录");
+                $('#loginModal').modal();
+            });
+            $("#writeGo").click(function () {
+                var username=getUrlParam("username");
+                if (username==null){
+                    alert("请先登录用户！");
+                }else {
+                    location.assign("/writeBlog.html?username="+username);
+                }
+            })
+            //准备ajaxform
+            var options={
+                success:showResponse
+            };
+            //监听用户登录提交
+            $("#userFormLogin").submit(function () {
+                console.log("2222222222222222222");
+                $(this).ajaxSubmit(options);
+                return false;
+            });
+
+        });
+        //登录后的回调函数
+        function showResponse(responseText,statusText){
+
+            console.log(responseText);
+            console.log(statusText);
+            var resp=responseText;
+            if (resp=="1"){
+                console.log("ok");
+                location.assign("/index.html?username="+document.getElementById("inputTel").value);
+            }else if(resp=="2"){
+                alert("密码输入错误！");
+            }else if(resp=="3"){
+                alert("用户尚未注册！");
+            }
+
+        }
+        //检查用户是否登录
+        function validateLogin() {
+
+        var username=getUrlParam("username");
+        if(username==null){
+
+        }else {
+            document.getElementById("registGo").style.display="none";
+            document.getElementById("loginGo").style.display="none";
+            $("#welcome").text("欢迎，"+username);
+            document.getElementById("welcome").style.display="inline-block";
+        }
+
+        }
+
+        //获取地址栏参数
+        function getUrlParam(name)
+        {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r!=null)return  unescape(r[2]); return null;
+        }
+
+
+        page=null;
+        maxPage=null;
+
+      function reqInfo() {
+
+          //分页实现
+          var xmlHttpForMaxPage=new XMLHttpRequest();
+          xmlHttpForMaxPage.open("GET","http://localhost:8080/maxPage",false);
+          xmlHttpForMaxPage.send();
+          if (xmlHttpForMaxPage.readyState==4 && xmlHttpForMaxPage.status==200){
+              maxPage=Math.ceil(parseInt(xmlHttpForMaxPage.responseText)/15);
+              console.log(maxPage);
+          }
+
+          page=document.cookie.split(";")[0].split("=")[1];
+
+          console.log("page: "+page);
+
+          if (page==null){
+              page=1;
+          }
+
+          for(var i=(page-1)*15+1;i<=15*page;i++){
+              var xmlHttp=new XMLHttpRequest();
+              xmlHttp.open("GET","http://localhost:8080/main?id="+i,false);
+              xmlHttp.send();
+              if (xmlHttp.readyState==4 && xmlHttp.status==200){
+//                  console.log(xmlHttp.responseText);
+                  try {
+                      var post=JSON.parse(xmlHttp.responseText);
+                      document.getElementById("title_"+(i%15==0?15:i%15)).innerHTML=post[0]["title"];
+                      document.getElementById("title_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
+                      document.getElementById("author_"+(i%15==0?15:i%15)).innerHTML=post[0]["author"];
+                      document.getElementById("author_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
+                      document.getElementById("date_"+(i%15==0?15:i%15)).innerHTML=(parseInt(post[0]["createDate"]["year"])%100+2000)+"-"+(parseInt(post[0]["createDate"]["month"])+1)+"-"+post[0]["createDate"]["day"];
+                      document.getElementById("date_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
+                      document.getElementById("scan_"+(i%15==0?15:i%15)).innerHTML=post[0]["scan"];
+                      document.getElementById("scan_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
+                      document.getElementById("save_"+(i%15==0?15:i%15)).innerHTML=post[0]["favor"];
+                      document.getElementById("save_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
+                  }catch (e){
+
+                  }
+              }
+          }
+
+
+
+      }
+
+        //点击下一页，向cookie中添加页面信息
+        function addCookieAndGoToNext() {
+          if(page==maxPage){
+              alert("当前是最后一页");
+          }else {
+              page++;
+              document.cookie="page="+page;
+          }
+        }
+
+        //点击上一页，向cookie中添加页面信息
+        function goPrePage() {
+            if(page==1){
+                alert("当前是第一页");
+            }else {
+                page--;
+                document.cookie="page="+page;
+            }
+        }
+
+        //设置cookie
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            var expires = "expires="+d.toUTCString();
+            document.cookie = cname + "=" + cvalue + "; " + expires;
+        }
+        //获取cookie
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0; i<ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1);
+                if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
+            }
+            return "";
+        }
+        //清除cookie
+        function clearCookie(name) {
+            setCookie(name, "", -1);
+        }
+
+
+
+    </script>
+</head>
+<body onload="reqInfo()">
+
+<!----------------------------------------------------------导航栏------------------------------------------------------>
+<nav class="top_bar navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">CoderBBS</a>
+        <ul class="nav navbar-nav navbar-left">
+            <li><a id="writeGo" href="#"><span class="glyphicon glyphicon-edit">写博客</span></a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><span id="welcome" class="text-success"></span></li>
+            <li><a id="registGo" href="#"><span class="glyphicon glyphicon-user"></span>注册</a></li>
+            <li><a id="loginGo" href="#"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>
+        </ul>
+    </div>
+</nav>
+<!----------------------------------------------------------广告栏----------------------------------------------------------->
+<div id="LBbox" class="carousel slide" data-ride="carousel">
+    <!-- 圆点按钮 -->
+    <ol class="carousel-indicators">
+        <li data-target="#LBbox" data-slide-to="0" class="active"></li>
+        <li data-target="#LBbox" data-slide-to="1"></li>
+        <li data-target="#LBbox" data-slide-to="2"></li>
+    </ol>
+    <!-- 轮播内容 -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <a href="http://img.mukewang.com"><img src="http://img.mukewang.com/5412ad7c0001d2eb10880541.jpg" alt="1 slide"></a>
+            <div class="carousel-caption">
+                <h1>第四代 Intel Core 处理器</h1>
+                <p>无论是什么任务，配备 Intel HD Graphics 5000 图形处理器的第四代 Intel Core 处理器都能应对自如。</p>
+            </div>
+        </div>
+        <div class="item">
+            <a href="http://img.mukewang.com"><img src="http://img.mukewang.com/5412ae5c0001653b12800644.jpg" alt="2 slide"></a>
+            <div class="carousel-caption">
+                <h1>MacBook Air</h1>
+                <p>有了新一代 802.11ac 技术，MacBook Air 令 Wi-Fi 速度超越极限。</p>
+            </div>
+        </div>
+        <div class="item">
+            <a href="http://img.mukewang.com"><img src="/1.jpg" alt="3 slide"></a>
+            <div class="carousel-caption">
+                <h1>MacBook Air</h1>
+                <p>有了新一代 802.11ac 技术，MacBook Air 令 Wi-Fi 速度超越极限。</p>
+            </div>
+        </div>
+    </div>
+    <!-- 左按钮 -->
+    <a href="#LBbox" class="left carousel-control" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">上一页</span>
+    </a>
+    <!-- 右按钮 -->
+    <a href="#LBbox" class="right carousel-control" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">下一页</span>
+    </a>
+</div>
+
+<!----------------------------------------------------------目录主体---------------------------------------------------->
+
+<div class="mainBody">
+
+    <table width="100%">
+        <th width="50%">标题</th>
+        <th width="10%">作者</th>
+        <th width="20%">发帖日期</th>
+        <th width="10%">浏览数</th>
+        <th width="10%">收藏</th>
+
+        <tr>
+            <td class="titleTd"><a id="title_1" href="#"></a></td>
+            <td class="authorTd"><a id="author_1" href="#"></a></td>
+            <td class="dateTd"><a id="date_1" href="#"></a></td>
+            <td class="scanTd"><a id="scan_1" href="#"></a></td>
+            <td class="saveTd"><a id="save_1" href="#"></a></td>
+        </tr>
+
+        <tr>
+            <td class="titleTd"><a id="title_2" href="#"></a></td>
+            <td class="authorTd"><a id="author_2" href="#"></a></td>
+            <td class="dateTd"><a id="date_2" href="#"></a></td>
+            <td class="scanTd"><a id="scan_2" href="#"></a></td>
+            <td class="saveTd"><a id="save_2" href="#"></a></td>
+        </tr>
+
+
+        <tr>
+            <td class="titleTd"><a id="title_3" href="#"></a></td>
+            <td class="authorTd"><a id="author_3" href="#"></a></td>
+            <td class="dateTd"><a id="date_3" href="#"></a></td>
+            <td class="scanTd"><a id="scan_3" href="#"></a></td>
+            <td class="saveTd"><a id="save_3" href="#"></a></td>
+        </tr>
+
+        <tr>
+            <td class="titleTd"><a id="title_4" href="#"></a></td>
+            <td class="authorTd"><a id="author_4" href="#"></a></td>
+            <td class="dateTd"><a id="date_4" href="#"></a></td>
+            <td class="scanTd"><a id="scan_4" href="#"></a></td>
+            <td class="saveTd"><a id="save_4" href="#"></a></td>
+        </tr>
+
+        <tr>
+            <td class="titleTd"><a id="title_5" href="#"></a></td>
+            <td class="authorTd"><a id="author_5" href="#"></a></td>
+            <td class="dateTd"><a id="date_5" href="#"></a></td>
+            <td class="scanTd"><a id="scan_5" href="#"></a></td>
+            <td class="saveTd"><a id="save_5" href="#"></a></td>
+        </tr>
+
+
+        <tr>
+            <td class="titleTd"><a id="title_6" href="#"></a></td>
+            <td class="authorTd"><a id="author_6" href="#"></a></td>
+            <td class="dateTd"><a id="date_6" href="#"></a></td>
+            <td class="scanTd"><a id="scan_6" href="#"></a></td>
+            <td class="saveTd"><a id="save_6" href="#"></a></td>
+        </tr>
+
+        <tr>
+            <td class="titleTd"><a id="title_7" href="#"></a></td>
+            <td class="authorTd"><a id="author_7" href="#"></a></td>
+            <td class="dateTd"><a id="date_7" href="#"></a></td>
+            <td class="scanTd"><a id="scan_7" href="#"></a></td>
+            <td class="saveTd"><a id="save_7" href="#"></a></td>
+        </tr>
+
+        <tr>
+            <td class="titleTd"><a id="title_8" href="#"></a></td>
+            <td class="authorTd"><a id="author_8" href="#"></a></td>
+            <td class="dateTd"><a id="date_8" href="#"></a></td>
+            <td class="scanTd"><a id="scan_8" href="#"></a></td>
+            <td class="saveTd"><a id="save_8" href="#"></a></td>
+        </tr>
+
+        <tr>
+            <td class="titleTd"><a id="title_9" href="#"></a></td>
+            <td class="authorTd"><a id="author_9" href="#"></a></td>
+            <td class="dateTd"><a id="date_9" href="#"></a></td>
+            <td class="scanTd"><a id="scan_9" href="#"></a></td>
+            <td class="saveTd"><a id="save_9" href="#"></a></td>
+        </tr>
+
+        <tr>
+            <td class="titleTd"><a id="title_10" href="#"></a></td>
+            <td class="authorTd"><a id="author_10" href="#"></a></td>
+            <td class="dateTd"><a id="date_10" href="#"></a></td>
+            <td class="scanTd"><a id="scan_10" href="#"></a></td>
+            <td class="saveTd"><a id="save_10" href="#"></a></td>
+        </tr>
+
+        <tr>
+            <td class="titleTd"><a id="title_11" href="#"></a></td>
+            <td class="authorTd"><a id="author_11" href="#"></a></td>
+            <td class="dateTd"><a id="date_11" href="#"></a></td>
+            <td class="scanTd"><a id="scan_11" href="#"></a></td>
+            <td class="saveTd"><a id="save_11" href="#"></a></td>
+        </tr>
+
+        <tr>
+            <td class="titleTd"><a id="title_12" href="#"></a></td>
+            <td class="authorTd"><a id="author_12" href="#"></a></td>
+            <td class="dateTd"><a id="date_12" href="#"></a></td>
+            <td class="scanTd"><a id="scan_12" href="#"></a></td>
+            <td class="saveTd"><a id="save_12" href="#"></a></td>
+        </tr>
+
+        <tr>
+            <td class="titleTd"><a id="title_13" href="#"></a></td>
+            <td class="authorTd"><a id="author_13" href="#"></a></td>
+            <td class="dateTd"><a id="date_13" href="#"></a></td>
+            <td class="scanTd"><a id="scan_13" href="#"></a></td>
+            <td class="saveTd"><a id="save_13" href="#"></a></td>
+        </tr>
+
+        <tr>
+            <td class="titleTd"><a id="title_14" href="#"></a></td>
+            <td class="authorTd"><a id="author_14" href="#"></a></td>
+            <td class="dateTd"><a id="date_14" href="#"></a></td>
+            <td class="scanTd"><a id="scan_14" href="#"></a></td>
+            <td class="saveTd"><a id="save_14" href="#"></a></td>
+        </tr>
+
+        <tr>
+            <td class="titleTd"><a id="title_15" href="#"></a></td>
+            <td class="authorTd"><a id="author_15" href="#"></a></td>
+            <td class="dateTd"><a id="date_15" href="#"></a></td>
+            <td class="scanTd"><a id="scan_15" href="#"></a></td>
+            <td class="saveTd"><a id="save_15" href="#"></a></td>
+        </tr>
+
+    </table>
+
+</div>
+
+<!------------------------------------------------------------------------页面跳转-------------------------------------->
+
+<div class="tail">
+
+   <a class="pre_page" href="index.html" onclick="goPrePage()">上一页</a>
+   <a class="next_page" href="index.html" onclick="addCookieAndGoToNext()">下一页</a>
+
+</div>
+
+<!------------------------------------------------------------------------注册弹窗-------------------------------------->
+<div class="modal fade" id="registModal" tabindex="-1" role="dialog" aria-labelledby="registLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="registLabel">用户注册</h4>
+            </div>
+            <div class="modal-body">
+
+                <form class="form-horizontal" id="userFormRegist" target="_top" action="/userregist" method="get">
+                    <span class="heading">注册信息</span>
+                    <div class="form-group">
+                        <input type="tel" class="form-control" id="inputTelRegist" placeholder="用户名" name="username">
+                    </div>
+                    <div class="form-group help-block">
+                        <input type="password" class="form-control" id="inputPasswordRegist" placeholder="密码" name="password">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="inputSexRegist" placeholder="性别" name="sex">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" id="inputAgeRegist" placeholder="年龄" name="age">
+                    </div>
+                    <div class="form-group">
+                        <button id="regist_btn" type="submit" class="btn btn-default">注册</button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+    <!------------------------------------------------登录弹窗---------------------------------------------------------->
+<iframe src="" id="tempFrame" name="tempFrame" style="display: none;"></iframe>
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="loginLabel">用户登录</h4>
+            </div>
+            <div class="modal-body">
+
+            <form class="form-horizontal" id="userFormLogin" target="tempFrame" action="/userlogin" method="get">
+                <span class="heading">用户登录</span>
+                <div class="form-group">
+                    <input type="tel" class="form-control" id="inputTel" placeholder="用户名" name="username">
+                    <i class="fa fa-user"></i>
+                </div>
+                <div class="form-group help-block">
+                    <input type="password" class="form-control" id="inputPassword" placeholder="密码" name="password">
+                    <i class="fa fa-lock"></i>
+                    <a href="#" class="fa fa-question-circle"></a>
+                </div>
+                <div class="form-group">
+                    <div class="main-checkbox">
+                        <input type="checkbox" id="checkbox1" name="isRemember">
+                        <label for="checkbox1"></label>
+                    </div>
+                    <span class="text">Remember me</span>
+                    <button type="submit" class="btn btn-default">登录</button>
+                </div>
+            </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>

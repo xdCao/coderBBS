@@ -1,0 +1,34 @@
+<component name="libraryTable">
+  <library name="Hibernate" type="hibernate">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../hibernate/antlr-2.7.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate/classmate-1.3.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate/dom4j-1.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate/el-api-2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate/geronimo-jta_1.1_spec-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate/hibernate-commons-annotations-5.0.1.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate/hibernate-core-5.2.3.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate/hibernate-jpa-2.1-api-1.0.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate/jandex-2.0.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate/javassist-3.20.0-GA.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate/javax.inject-1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate/jboss-interceptors-api_1.1_spec-1.0.0.Beta1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate/jboss-logging-3.3.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate/jboss-transaction-api_1.1_spec-1.0.1.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate/jsr250-api-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate外部依赖javax包/javax.jms.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate外部依赖javax包/javax.persistence.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate外部依赖javax包/javax.ejb.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate外部依赖javax包/javax.transaction.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate外部依赖javax包/javax.resource.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate外部依赖javax包/javax.annotation.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate外部依赖javax包/javax.servlet.jsp.jstl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate外部依赖javax包/javax.servlet.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../hibernate外部依赖javax包/javax.servlet.jsp.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../../hibernate" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/../../../hibernate" recursive="false" />
+  </library>
+</component>

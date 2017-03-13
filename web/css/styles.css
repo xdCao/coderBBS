@@ -1,0 +1,109 @@
+
+
+.top_bar{
+    color: white;
+    float: left;
+    width: 100%;
+    height: 20px;
+    background-color:black;
+    padding: 0 0;
+    margin: 0 0;
+}
+.top_bar_link{
+    margin-left: 80%;
+}
+a.pre_page:link{
+    color: white;
+}
+a.pre_page:visited{
+    color: white;
+}
+a.next_page:link{
+    color: white;
+}
+a.next_page:visited{
+    color: white;
+}
+a:link{
+    color: black;
+}
+a:visited{
+    color: purple;
+}
+.top_text{
+    font-size: 50px;
+    width: 100%;
+    height: auto;
+    color: #000;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.mainBody{
+    float: left;
+    background-color: white;
+    width: 100%;
+    color: black;
+    font-size: 8px;
+}
+th{height: 30px;}
+td{
+    height: 30px;
+    font-size: 10px;
+}
+.titleTd{
+    width: 50%;
+    text-align: center;
+    border: 1px solid gray;
+}
+.authorTd{
+    width:10%;
+    text-align: center;
+    border: 1px solid gray;
+}
+.dateTd{
+    width:20%;
+    text-align: center;
+    border: 1px solid gray;
+}
+.scanTd{
+    width:10%;
+    text-align: center;
+    border: 1px solid gray;
+}
+.saveTd{
+    width:10%;
+    text-align: center;
+    border: 1px solid gray;
+}
+
+table{
+    border: 2px solid black;
+}
+th{
+    text-align: center;
+}
+.tail{
+    width:100%;
+    height: 94px;
+    background-color: black;
+    float: left;
+    font-size: 20px;
+}
+.pre_page{
+    color: white;
+    width: 10%;
+    margin-left: 35%;
+    display: inline;
+    float: left;
+    margin-top: 36.5px;
+}
+
+.next_page{
+    color: white;
+    width:10%;
+    margin-left: 20%;
+    display: inline;
+    float: left;
+    margin-top: 36.5px;
+}

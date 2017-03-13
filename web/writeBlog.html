@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Editable WYSIWYG</title>
+    <script src="js/http_code.jquery.com_jquery-3.1.1.js"></script>
+    <link type="text/css" rel="stylesheet" href="js/bootstrap-3.3.5-dist/dist/css/bootstrap.css">
+    <link href="js/font-awesome-4.4.0/css/font-awesome.css" rel="stylesheet">
+    <script src="js/bootstrap-3.3.5-dist/dist/js/bootstrap.js"></script>
+
+    <style>
+        .content{
+            margin-top: 100px;
+        }
+        #editor {
+            margin-left: 10%;
+            width: 80%;
+            height: 500px;
+            resize:vertical;
+            overflow:auto;
+            border:1px solid silver;
+            border-radius:5px;
+            min-height:100px;
+            box-shadow: inset 0 0 10px silver;
+            padding:1em;
+        }
+        #sub_btn{
+            margin-left: 80%;
+        }
+        .info_input{
+            margin-left: 10%;
+            width: 80%;
+            height: 40px;
+            border:1px solid silver;
+            border-radius:5px;
+            padding:1em;
+            box-shadow: inset 0 0 10px silver;
+        }
+    </style>
+
+    <script>
+
+        $(document).ready(function () {
+            $('#editControls a').click(function(e) {
+                switch($(this).data('role')) {
+                    case 'h1':
+                    case 'h2':
+                    case 'p':
+                        document.execCommand('formatBlock', false, '<' + $(this).data('role') + '>');
+                        break;
+                    default:
+                        document.execCommand($(this).data('role'), false, null);
+                        break;
+                }
+            });
+        });
+
+        function submitData() {
+//            var req=new XMLHttpRequest();
+//            var url="/contentPost?"+"title="+document.getElementById("inputTitle").value+"&"+"author="+document.getElementById("inputAuthor").value+"&"+"content="+document.getElementById("editor").innerHTML;
+//            req.open("Post",url,true);
+//            req.send();
+//
+//            req.onreadystatechange=function () {
+//                console.log("发送了");
+//            };
+
+            jQuery.ajax({
+                type:"POST",
+                dataType:"JSON",
+                url:"/contentPost",
+                data:{
+                    "title":document.getElementById("inputTitle").value,
+                    "author":document.getElementById("inputAuthor").value,
+                    "content":document.getElementById("editor").innerHTML
+                }
+            })
+
+        }
+        
+
+    </script>
+
+</head>
+<body>
+
+
+
+
+
+
+<div class="content">
+    <div class="container-fluid">
+
+        <input type="text" class="info_input" id="inputTitle" placeholder="标题" name="title">
+        <hr>
+        <input type="text" class="info_input" id="inputAuthor" placeholder="作者" name="author">
+        <hr>
+        <div id='pad-wrapper'>
+            <div id="editparent">
+                <div id='editControls' class='span12' style='text-align:center; padding:5px;'>
+                    <div class='btn-group'>
+                        <a class='btn' data-role='undo' href='#'><i class='icon-undo'></i></a>
+                        <a class='btn' data-role='redo' href='#'><i class='icon-repeat'></i></a>
+                    </div>
+                    <div class='btn-group'>
+                        <a class='btn' data-role='bold' href='#'><b>Bold</b></a>
+                        <a class='btn' data-role='italic' href='#'><em>Italic</em></a>
+                        <a class='btn' data-role='underline' href='#'><u><b>U</b></u></a>
+                        <a class='btn' data-role='strikeThrough' href='#'><strike>abc</strike></a>
+                    </div>
+                    <div class='btn-group'>
+                        <a class='btn' data-role='justifyLeft' href='#'><i class='icon-align-left'></i></a>
+                        <a class='btn' data-role='justifyCenter' href='#'><i class='icon-align-center'></i></a>
+                        <a class='btn' data-role='justifyRight' href='#'><i class='icon-align-right'></i></a>
+                        <a class='btn' data-role='justifyFull' href='#'><i class='icon-align-justify'></i></a>
+                    </div>
+                    <div class='btn-group'>
+                        <a class='btn' data-role='indent' href='#'><i class='icon-indent-right'></i></a>
+                        <a class='btn' data-role='outdent' href='#'><i class='icon-indent-left'></i></a>
+                    </div>
+                    <div class='btn-group'>
+                        <a class='btn' data-role='insertUnorderedList' href='#'><i class='icon-list-ul'></i></a>
+                        <a class='btn' data-role='insertOrderedList' href='#'><i class='icon-list-ol'></i></a>
+                    </div>
+                    <div class='btn-group'>
+                        <a class='btn' data-role='h1' href='#'>h<sup>1</sup></a>
+                        <a class='btn' data-role='h2' href='#'>h<sup>2</sup></a>
+                        <a class='btn' data-role='p' href='#'>p</a>
+                    </div>
+                    <div class='btn-group'>
+                        <a class='btn' data-role='subscript' href='#'><i class='icon-subscript'></i></a>
+                        <a class='btn' data-role='superscript' href='#'><i class='icon-superscript'></i></a>
+                    </div>
+                </div>
+                <div id='editor' class='span12' style='' contenteditable>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div>
+    <button id="sub_btn" class="btn btn-default glyphicon glyphicon-ok" type="button" onclick="submitData()"><span>提交</span></button>
+</div>
+
+
+</body>
+</html>
