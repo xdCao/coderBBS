@@ -12,9 +12,12 @@ import javax.persistence.Id;
 public class Users {
     private String username;
     private String password;
+    private String nick;
+    private String sex;
+    private Integer age;
 
     @Id
-    @Column(name = "username", nullable = false, length = 255)
+    @Column(name = "username", nullable = false, length = 11)
     public String getUsername() {
         return username;
     }
@@ -51,5 +54,35 @@ public class Users {
         int result = username != null ? username.hashCode() : 0;
         result = 31 * result + (password != null ? password.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "nick", nullable = true, length = 30)
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+
+    @Basic
+    @Column(name = "sex", nullable = true, length = 10)
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    @Basic
+    @Column(name = "age", nullable = true)
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 }

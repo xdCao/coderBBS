@@ -222,7 +222,9 @@
             console.log(responseText);
             console.log(statusText);
             var resp=responseText;
-
+            if(resp=="ok"){
+                bootbox.alert("Hello world!", function() {});
+            }
         }
 
         //检查用户是否登录
@@ -566,6 +568,9 @@
                     <span class="heading">注册信息</span>
                     <div class="form-group">
                         <input type="tel" class="form-control" id="inputTelRegist" placeholder="用户名" name="username">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="inputNickRegist" placeholder="昵称" name="nick">
                     </div>
                     <div class="form-group help-block">
                         <input type="password" class="form-control" id="inputPasswordRegist" placeholder="密码" name="password">
