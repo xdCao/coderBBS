@@ -48,4 +48,14 @@
         <servlet-name>writeBlogServlet</servlet-name>
         <url-pattern>/contentPost</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>userRegistServlet</servlet-name>
+        <servlet-class>action.UserRegistServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>userRegistServlet</servlet-name>
+        <url-pattern>/userregist</url-pattern>
+    </servlet-mapping>
+
 </web-app>
