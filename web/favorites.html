@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link type="text/css" rel="stylesheet" href="js/bootstrap-3.3.5-dist/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <script src="js/http_code.jquery.com_jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="js/bootstrap-3.3.5-dist/dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/jquery.form.js"></script>
+    <script type="text/javascript" src="js/bootbox.js"></script>
+    <meta charset="UTF-8">
+    <title>favorites</title>
+
+    <style>
+        #welcome{
+            margin-top: 8px;
+            margin-right: 10px;
+            display: none;
+            color: rgb(0, 0, 0);
+            font-size: 14px;
+        }
+        .myTable{
+            margin: 20px 10% 20px 10%;
+        }
+        td{
+            text-align: center;
+        }
+    </style>
+
+
+    <script>
+
+        $(document).ready(function () {
+            validateLogin();
+
+            reqMyFavoriteData();
+
+        });
+
+        function getUrlParam(name)
+        {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r!=null)return  unescape(r[2]); return null;
+        }
+
+
+        //设置cookie
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            var expires = "expires="+d.toUTCString();
+            document.cookie = cname + "=" + cvalue + "; " + expires;
+        }
+        //获取cookie
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0; i<ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1);
+                if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
+            }
+            return "";
+        }
+        //清除cookie
+        function clearCookie(name) {
+            setCookie(name, "", -1);
+        }
+
+        function validateLogin() {
+
+            var username=getCookie("username");
+            var password=getCookie("password");
+            console.log("cookie: username:"+username);
+            console.log("cookie:password:"+password);
+
+            if(username==null||username==undefined||username==""){
+                username=getUrlParam("username");
+                if(username==null||username==undefined||username==""){}else {
+                    document.getElementById("registGo").style.display="none";
+                    document.getElementById("loginGo").style.display="none";
+                    $("#welcome").text(" ："+username);
+                    document.getElementById("welcome").style.display="inline-block";
+                }
+            }else {
+                console.log("进入请求");
+                var xmlHttpIsLogin=new XMLHttpRequest();
+                xmlHttpIsLogin.open("GET","http://localhost:8080/userlogin?username="+username+"&"+"password="+password,false);
+                xmlHttpIsLogin.send();
+                if (xmlHttpIsLogin.readyState==4 && xmlHttpIsLogin.status==200){
+                    if(xmlHttpIsLogin.responseText=="1"){
+                        document.getElementById("registGo").style.display="none";
+                        document.getElementById("loginGo").style.display="none";
+                        $("#welcome").text(" ："+username);
+                        document.getElementById("welcome").style.display="inline-block";
+                    }
+                }
+            }
+        }
+
+        function reqMyFavoriteData(){
+
+            for(var i=0;i++;i<2){
+
+                var req=new XMLHttpRequest();
+                req.open("GET","http://localhost:8080/readFavorite?id="+i,false);
+                req.send();
+                console.log(req.responseText);
+                if(req.readyState==4&&req.status==200){
+                    var post=JSON.parse(req.responseText);
+                    document.getElementById("title_"+(i+1)).innerHTML=post[0]["title"];
+                    document.getElementById("author_"+(i+1)).innerHTML=post[0]["author"];
+                    document.getElementById("date_"+(i+1)).innerHTML=(parseInt(post[0]["createDate"]["year"])%100+2000)+"-"+(parseInt(post[0]["createDate"]["month"])+1)+"-"+post[0]["createDate"]["date"];
+                    document.getElementById("scan_"+(i+1)).innerHTML=post[0]["scan"];
+                    document.getElementById("save_"+(i+1)).innerHTML=post[0]["favor"];
+                }
+
+
+            }
+
+
+
+        }
+
+    </script>
+
+
+</head>
+<body>
+
+<nav class="top_bar navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">CoderBBS</a>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <button id="welcome" type="button" class="glyphicon glyphicon-user btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="#">我的收藏</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li >
+                        <a href="#">用户信息</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#">设置</a>
+                    </li>
+                </ul>
+            </li>
+            <li><a id="registGo" href="#"><span class="glyphicon glyphicon-user"></span>注册</a></li>
+            <li><a id="loginGo" href="#"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="myTable">
+    <table class="table table-hover">
+        <caption>悬停表格布局</caption>
+        <thead>
+        <tr>
+            <th>标题</th>
+            <th>作者</th>
+            <th>发帖日期</th>
+            <th>阅读</th>
+            <th>收藏</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td id="title_1">Tanmay</td>
+            <td id="author_1">Bangalore</td>
+            <td id="date_1">560001</td>
+            <td id="scan_1">1</td>
+            <td id="save_1">2</td>
+        </tr>
+        <tr>
+            <td id="title_2">Sachin</td>
+            <td id="author_2">Mumbai</td>
+            <td id="date_2">400003</td>
+            <td id="scan_2">1</td>
+            <td id="save_2">2</td>
+        </tr>
+        <tr>
+            <td>Uma</td>
+            <td>Pune</td>
+            <td>411027</td>
+            <td>1</td>
+            <td>2</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>

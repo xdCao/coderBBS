@@ -4,6 +4,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+
     <servlet>
         <servlet-name>mainServlet</servlet-name>
         <servlet-class>action.PageInfoServlet</servlet-class>
@@ -66,5 +67,24 @@
         <servlet-name>favorOperationServlet</servlet-name>
         <url-pattern>/favorOperation</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>isFavorServlet</servlet-name>
+        <servlet-class>action.isFavorServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>isFavorServlet</servlet-name>
+        <url-pattern>/isFavor</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>readFavoriteServlet</servlet-name>
+        <servlet-class>action.ReadFavoriteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>readFavoriteServlet</servlet-name>
+        <url-pattern>/readFavorite</url-pattern>
+    </servlet-mapping>
+
 
 </web-app>

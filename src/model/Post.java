@@ -1,6 +1,9 @@
 package model;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Date;
 
 /**
@@ -15,7 +18,6 @@ public class Post {
     private Integer scan;
     private Integer favor;
     private String content;
-    private Users usersByUserId;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -115,15 +117,5 @@ public class Post {
         result = 31 * result + (favor != null ? favor.hashCode() : 0);
         result = 31 * result + (content != null ? content.hashCode() : 0);
         return result;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    public Users getUsersByUserId() {
-        return usersByUserId;
-    }
-
-    public void setUsersByUserId(Users usersByUserId) {
-        this.usersByUserId = usersByUserId;
     }
 }

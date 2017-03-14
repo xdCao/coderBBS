@@ -139,10 +139,11 @@
             }
         }
         #welcome{
+            margin-top: 8px;
+            margin-right: 10px;
             display: none;
-            color: white;
-            margin-top: 10px;
-            margin-right: 20px;
+            color: rgb(0, 0, 0);
+            font-size: 14px;
         }
 
     </style>
@@ -249,8 +250,8 @@
             if(username==null||username==undefined||username==""){}else {
                 document.getElementById("registGo").style.display="none";
                 document.getElementById("loginGo").style.display="none";
-                $("#welcome").text("欢迎，"+username);
-                document.getElementById("welcome").style.display="inline-block";
+                $("#welcome").text(" ："+username);
+                document.getElementById("welcome").style.display="block";
             }
         }else {
             console.log("进入请求");
@@ -261,8 +262,8 @@
                 if(xmlHttpIsLogin.responseText=="1"){
                     document.getElementById("registGo").style.display="none";
                     document.getElementById("loginGo").style.display="none";
-                    $("#welcome").text("欢迎，"+username);
-                    document.getElementById("welcome").style.display="inline-block";
+                    $("#welcome").text(" ："+username);
+                    document.getElementById("welcome").style.display="block";
                 }
             }
         }
@@ -310,7 +311,7 @@
                       var post=JSON.parse(xmlHttp.responseText);
                       document.getElementById("title_"+(i%15==0?15:i%15)).innerHTML=post[0]["title"];
                       document.getElementById("author_"+(i%15==0?15:i%15)).innerHTML=post[0]["author"];
-                      document.getElementById("date_"+(i%15==0?15:i%15)).innerHTML=(parseInt(post[0]["createDate"]["year"])%100+2000)+"-"+(parseInt(post[0]["createDate"]["month"])+1)+"-"+post[0]["createDate"]["day"];
+                      document.getElementById("date_"+(i%15==0?15:i%15)).innerHTML=(parseInt(post[0]["createDate"]["year"])%100+2000)+"-"+(parseInt(post[0]["createDate"]["month"])+1)+"-"+post[0]["createDate"]["date"];
                       document.getElementById("scan_"+(i%15==0?15:i%15)).innerHTML=post[0]["scan"];
                       document.getElementById("save_"+(i%15==0?15:i%15)).innerHTML=post[0]["favor"];
                       if(username==null||username==undefined||username==""){
@@ -392,9 +393,26 @@
             <li><a id="writeGo" href="#"><span class="glyphicon glyphicon-edit">写博客</span></a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><span id="welcome" class="text-success"></span></li>
-            <li><a id="registGo" href="#"><span class="glyphicon glyphicon-user"></span>注册</a></li>
-            <li><a id="loginGo" href="#"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>
+            <li>
+                <button id="welcome" type="button" class="glyphicon glyphicon-user btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="/favorites.html">我的收藏</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li >
+                        <a href="#">用户信息</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#">设置</a>
+                    </li>
+                </ul>
+            </li>
+            <li><a id="registGo"><span class="glyphicon glyphicon-user"></span>注册</a></li>
+            <li><a id="loginGo"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>
         </ul>
     </div>
 </nav>
@@ -446,13 +464,17 @@
 
 <div class="mainBody">
 
-    <table width="100%">
+    <table class="table table-hover" width="100%">
+        <thead>
+        <tr>
         <th width="50%">标题</th>
         <th width="10%">作者</th>
         <th width="20%">发帖日期</th>
         <th width="10%">浏览数</th>
         <th width="10%">收藏</th>
-
+        </tr>
+        </thead>
+        <tbody>
         <tr>
             <td class="titleTd"><a id="title_1" href="#"></a></td>
             <td class="authorTd"><a id="author_1" href="#"></a></td>
@@ -574,7 +596,7 @@
             <td class="scanTd"><a id="scan_15" href="#"></a></td>
             <td class="saveTd"><a id="save_15" href="#"></a></td>
         </tr>
-
+        </tbody>
     </table>
 
 </div>

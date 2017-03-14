@@ -17,41 +17,31 @@ import java.io.PrintWriter;
 import java.util.List;
 
 /**
- * Created by xdcao on 2017/3/12.
+ * Created by xdcao on 2017/3/14.
  */
-public class readBlogServlet extends HttpServlet {
+public class ReadFavoriteServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id= Integer.parseInt(req.getParameter("id"));
+        int id=Integer.parseInt(req.getParameter("id"));
+        System.out.println("get id: "+id);
         resp.setCharacterEncoding("utf-8");
-        PrintWriter out = resp.getWriter();
+        PrintWriter out=resp.getWriter();
+        Users users= (Users) req.getSession().getAttribute("currentUser");
         Session session= Main.getSession();
-        String hql="from Post where id="+id;
-        javax.persistence.Query query=session.createQuery(hql);
-        List<Post> posts=query.getResultList();
-        Post post=posts.get(0);
-        if(post.getScan()==null){
-            post.setScan(1);
-        }else {
-            int scan=post.getScan()+1;
-            post.setScan(scan);
-        }
-
         Transaction transaction=session.beginTransaction();
-//        String update="update Post set Post.scan="+scan+" where Post.id="+postId;
-//        Query updateQuery=session.createQuery(update);
-//        updateQuery.executeUpdate();
-        session.update(post);
-        transaction.commit();
+        String hql="from Users where id="+users.getId();
+        Query query=session.createQuery(hql);
+        List<Users> usersList=query.getResultList();
+        Users myUser=usersList.get(0);
+        Post post= (Post) myUser.getPostsById().toArray()[id];
+
         JSONArray jsonArray=JSONArray.fromObject(post);
         out.print(jsonArray.toString());
-        out.close();
         System.out.println(jsonArray.toString());
 
-
+        transaction.commit();
+        session.close();
+        out.close();
     }
-
-
-
 }

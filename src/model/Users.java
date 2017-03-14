@@ -2,6 +2,7 @@ package model;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Created by xdcao on 2017/3/14.
@@ -13,7 +14,6 @@ public class Users {
     private String nick;
     private String sex;
     private Integer age;
-    private Integer postId;
     private int id;
     private Collection<Post> postsById;
 
@@ -67,16 +67,6 @@ public class Users {
         this.age = age;
     }
 
-    @Basic
-    @Column(name = "post_id", nullable = true)
-    public Integer getPostId() {
-        return postId;
-    }
-
-    public void setPostId(Integer postId) {
-        this.postId = postId;
-    }
-
     @Id
     @Column(name = "id", nullable = false)
     public int getId() {
@@ -100,7 +90,6 @@ public class Users {
         if (nick != null ? !nick.equals(users.nick) : users.nick != null) return false;
         if (sex != null ? !sex.equals(users.sex) : users.sex != null) return false;
         if (age != null ? !age.equals(users.age) : users.age != null) return false;
-        if (postId != null ? !postId.equals(users.postId) : users.postId != null) return false;
 
         return true;
     }
@@ -112,12 +101,11 @@ public class Users {
         result = 31 * result + (nick != null ? nick.hashCode() : 0);
         result = 31 * result + (sex != null ? sex.hashCode() : 0);
         result = 31 * result + (age != null ? age.hashCode() : 0);
-        result = 31 * result + (postId != null ? postId.hashCode() : 0);
         result = 31 * result + id;
         return result;
     }
 
-    @OneToMany(mappedBy = "usersByUserId")
+    @OneToMany()
     public Collection<Post> getPostsById() {
         return postsById;
     }

@@ -24,10 +24,11 @@
             width: 100%;
         }
         #welcome{
+            margin-top: 8px;
+            margin-right: 10px;
             display: none;
-            color: black;
-            margin-top: 10px;
-            margin-right: 20px;
+            color: rgb(0, 0, 0);
+            font-size: 14px;
         }
         .myheart{
             float: left;
@@ -60,15 +61,28 @@
                }
            };
 
-           var clickCount=0;
+            var isFavor=new XMLHttpRequest();
+            isFavor.open("Get","/isFavor?id="+id,true);
+            isFavor.send();
+            isFavor.onreadystatechange=function () {
+                if(isFavor.readyState==4&&isFavor.status==200){
+                    console.log(isFavor.responseText)
+                    if(isFavor.responseText=="favored"){
+                        $("#favor").addClass("glyphicon glyphicon-heart").text("已收藏");
+                    }else if(isFavor.responseText=="nofavor"){
+                        $("#favor").addClass("glyphicon glyphicon-heart-empty").text("收藏");
+                    }
+                }
+            }
+
+
+            //收藏
            $("#favor").click(function () {
-               if(clickCount%2==0){
-                   $("#favor").removeClass("glyphicon-heart-empty").addClass("glyphicon-heart").text("已收藏");
-                   clickCount++;
+               if($(this).text()=="收藏"){
+                   $("#favor").removeClass("glyphicon glyphicon-heart-empty").addClass("glyphicon glyphicon-heart").text("已收藏");
                    incrementFavor(1);
-               }else if(clickCount%2==1){
-                   $("#favor").removeClass("glyphicon-heart").addClass("glyphicon-heart-empty").text("收藏");
-                   clickCount++;
+               }else if($(this).text()=="已收藏"){
+                   $("#favor").removeClass("glyphicon glyphicon-heart").addClass("glyphicon glyphicon-heart-empty").text("收藏");
                    incrementFavor(-1);
                }
 
@@ -86,8 +100,14 @@
                     var save=parseInt($("#save").text())+1;
                     $("#save").text(save);
                 }else if(xmlHttpFavor.responseText=="-1"){
-                    var save=parseInt($("#save").text())-1;
-                    $("#save").text(save);
+                    if(parseInt($("#save").text())!=0){
+                        var save=parseInt($("#save").text())-1;
+                        $("#save").text(save);
+                    }else {
+                        alert("出错了");
+                    }
+
+
                 }
             }
         }
@@ -137,7 +157,7 @@
                 if(username==null||username==undefined||username==""){}else {
                     document.getElementById("registGo").style.display="none";
                     document.getElementById("loginGo").style.display="none";
-                    $("#welcome").text("欢迎，"+username);
+                    $("#welcome").text(" ："+username);
                     document.getElementById("welcome").style.display="inline-block";
                 }
             }else {
@@ -149,7 +169,7 @@
                     if(xmlHttpIsLogin.responseText=="1"){
                         document.getElementById("registGo").style.display="none";
                         document.getElementById("loginGo").style.display="none";
-                        $("#welcome").text("欢迎，"+username);
+                        $("#welcome").text(" ："+username);
                         document.getElementById("welcome").style.display="inline-block";
                     }
                 }
@@ -165,7 +185,24 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="#">CoderBBS</a>
         <ul class="nav navbar-nav navbar-right">
-            <li><span id="welcome" class="text-success"></span></li>
+            <li>
+                <button id="welcome" type="button" class="glyphicon glyphicon-user btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="#">我的收藏</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li >
+                        <a href="#">用户信息</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#">设置</a>
+                    </li>
+                </ul>
+            </li>
             <li><a id="registGo" href="#"><span class="glyphicon glyphicon-user"></span>注册</a></li>
             <li><a id="loginGo" href="#"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>
         </ul>
@@ -179,7 +216,7 @@
             <div>
                 <h1 id="title" class="text-left">title</h1>
                 <div>
-                    <a href="#"><span id="favor" class="glyphicon glyphicon-heart-empty myheart">收藏</span></a>
+                    <a><span id="favor" class="myheart"></span></a>
                     <!--<span id="hasFavored" class="glyphicon glyphicon-heart myheart">已收藏</span>-->
                 </div>
             </div>

@@ -54,32 +54,24 @@ td{
 .titleTd{
     width: 50%;
     text-align: center;
-    border: 1px solid gray;
 }
 .authorTd{
     width:10%;
     text-align: center;
-    border: 1px solid gray;
 }
 .dateTd{
     width:20%;
     text-align: center;
-    border: 1px solid gray;
 }
 .scanTd{
     width:10%;
     text-align: center;
-    border: 1px solid gray;
 }
 .saveTd{
     width:10%;
     text-align: center;
-    border: 1px solid gray;
 }
 
-table{
-    border: 2px solid black;
-}
 th{
     text-align: center;
 }

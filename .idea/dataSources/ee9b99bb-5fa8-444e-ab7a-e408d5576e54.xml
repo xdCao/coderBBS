@@ -30,7 +30,7 @@
     </column>
     <column id="17" parent="13" name="author">
       <Position>3</Position>
-      <DataType>varchar(30)|0</DataType>
+      <DataType>varchar(255)|0</DataType>
     </column>
     <column id="18" parent="13" name="create_date">
       <Position>4</Position>
@@ -38,15 +38,15 @@
     </column>
     <column id="19" parent="13" name="scan">
       <Position>5</Position>
-      <DataType>int(11)|0</DataType>
+      <DataType>varchar(255)|0</DataType>
     </column>
     <column id="20" parent="13" name="favor">
       <Position>6</Position>
-      <DataType>int(11)|0</DataType>
+      <DataType>varchar(255)|0</DataType>
     </column>
     <column id="21" parent="13" name="content">
       <Position>7</Position>
-      <DataType>longtext|0</DataType>
+      <DataType>varchar(255)|0</DataType>
     </column>
     <column id="22" parent="13" name="user_id">
       <Position>8</Position>
@@ -66,37 +66,32 @@
       <RefColNames>id</RefColNames>
     </foreign-key>
     <column id="26" parent="14" name="username">
-      <Position>7</Position>
+      <Position>2</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
     <column id="27" parent="14" name="password">
-      <Position>2</Position>
-      <DataType>varchar(16)|0</DataType>
-      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
     </column>
     <column id="28" parent="14" name="nick">
-      <Position>3</Position>
-      <DataType>varchar(30)|0</DataType>
+      <Position>4</Position>
+      <DataType>varchar(255)|0</DataType>
     </column>
     <column id="29" parent="14" name="sex">
-      <Position>4</Position>
-      <DataType>varchar(10)|0</DataType>
+      <Position>5</Position>
+      <DataType>varchar(255)|0</DataType>
     </column>
     <column id="30" parent="14" name="age">
-      <Position>5</Position>
-      <DataType>int(11)|0</DataType>
-    </column>
-    <column id="31" parent="14" name="post_id">
       <Position>6</Position>
       <DataType>int(11)|0</DataType>
     </column>
-    <column id="32" parent="14" name="id">
+    <column id="31" parent="14" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <key id="33" parent="14" name="PRIMARY">
+    <key id="32" parent="14" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>

@@ -36,11 +36,84 @@
             padding:1em;
             box-shadow: inset 0 0 10px silver;
         }
+        #welcome{
+            margin-top: 8px;
+            margin-right: 10px;
+            display: none;
+            color: rgb(0, 0, 0);
+            font-size: 14px;
+        }
     </style>
 
     <script>
 
+        function validateLogin() {
+
+            var username = getCookie("username");
+            var password = getCookie("password");
+            console.log("cookie: username:" + username);
+            console.log("cookie:password:" + password);
+
+            if (username == null || username == undefined || username == "") {
+                username = getUrlParam("username");
+                if (username == null || username == undefined || username == "") {
+                } else {
+                    document.getElementById("registGo").style.display = "none";
+                    document.getElementById("loginGo").style.display = "none";
+                    $("#welcome").text(" ：" + username);
+                    document.getElementById("welcome").style.display = "inline-block";
+                }
+            } else {
+                console.log("进入请求");
+                var xmlHttpIsLogin = new XMLHttpRequest();
+                xmlHttpIsLogin.open("GET", "http://localhost:8080/userlogin?username=" + username + "&" + "password=" + password, false);
+                xmlHttpIsLogin.send();
+                if (xmlHttpIsLogin.readyState == 4 && xmlHttpIsLogin.status == 200) {
+                    if (xmlHttpIsLogin.responseText == "1") {
+                        document.getElementById("registGo").style.display = "none";
+                        document.getElementById("loginGo").style.display = "none";
+                        $("#welcome").text(" ：" + username);
+                        document.getElementById("welcome").style.display = "inline-block";
+                    }
+                }
+            }
+        }
+
+        //设置cookie
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            var expires = "expires="+d.toUTCString();
+            document.cookie = cname + "=" + cvalue + "; " + expires;
+        }
+        //获取cookie
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0; i<ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1);
+                if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
+            }
+            return "";
+        }
+        //清除cookie
+        function clearCookie(name) {
+            setCookie(name, "", -1);
+        }
+
+        function getUrlParam(name)
+        {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r!=null)return  unescape(r[2]); return null;
+        }
+
+
         $(document).ready(function () {
+
+            validateLogin();
+
             $('#editControls a').click(function(e) {
                 switch($(this).data('role')) {
                     case 'h1':
@@ -84,7 +157,33 @@
 </head>
 <body>
 
-
+<nav class="top_bar navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">CoderBBS</a>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <button id="welcome" type="button" class="glyphicon glyphicon-user btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="#">我的收藏</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li >
+                        <a href="#">用户信息</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#">设置</a>
+                    </li>
+                </ul>
+            </li>
+            <li><a id="registGo" href="#"><span class="glyphicon glyphicon-user"></span>注册</a></li>
+            <li><a id="loginGo" href="#"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>
+        </ul>
+    </div>
+</nav>
 
 
 
