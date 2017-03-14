@@ -152,6 +152,7 @@
     <script src="js/http_code.jquery.com_jquery-3.1.1.js"></script>
     <script type="text/javascript" src="js/bootstrap-3.3.5-dist/dist/js/bootstrap.js"></script>
     <script type="text/javascript" src="js/jquery.form.js"></script>
+    <script type="text/javascript" src="js/bootbox.js"></script>
     <script>
 
         $(document).ready(function () {
@@ -189,7 +190,7 @@
                 $(this).ajaxSubmit(loginOptions);
                 return false;
             });
-
+            //用户注册信息提交
             var registOptions={
                 success:showRegistResponse
             };
@@ -198,6 +199,8 @@
                 $(this).ajaxSubmit(registOptions);
                 return false;
             });
+
+
 
 
         });
@@ -223,23 +226,42 @@
             console.log(statusText);
             var resp=responseText;
             if(resp=="ok"){
-                bootbox.alert("Hello world!", function() {});
+                bootbox.alert("注册成功", function() {});
+            }else if(resp=="exsit"){
+                bootbox.alert("该用户已注册",function () {});
             }
         }
 
         //检查用户是否登录
         function validateLogin() {
 
-        var username=getUrlParam("username");
-        if(username==null){
+        var username=getCookie("username");
+        var password=getCookie("password");
+        console.log("cookie: username:"+username);
+        console.log("cookie:password:"+password);
 
+        if(username==null||username==undefined||username==""){
+            username=getUrlParam("username");
+            if(username==null||username==undefined||username==""){}else {
+                document.getElementById("registGo").style.display="none";
+                document.getElementById("loginGo").style.display="none";
+                $("#welcome").text("欢迎，"+username);
+                document.getElementById("welcome").style.display="inline-block";
+            }
         }else {
-            document.getElementById("registGo").style.display="none";
-            document.getElementById("loginGo").style.display="none";
-            $("#welcome").text("欢迎，"+username);
-            document.getElementById("welcome").style.display="inline-block";
+            console.log("进入请求");
+            var xmlHttpIsLogin=new XMLHttpRequest();
+            xmlHttpIsLogin.open("GET","http://localhost:8080/userlogin?username="+username+"&"+"password="+password,false);
+            xmlHttpIsLogin.send();
+            if (xmlHttpIsLogin.readyState==4 && xmlHttpIsLogin.status==200){
+                if(xmlHttpIsLogin.responseText=="1"){
+                    document.getElementById("registGo").style.display="none";
+                    document.getElementById("loginGo").style.display="none";
+                    $("#welcome").text("欢迎，"+username);
+                    document.getElementById("welcome").style.display="inline-block";
+                }
+            }
         }
-
         }
 
         //获取地址栏参数
@@ -296,9 +318,6 @@
                   }
               }
           }
-
-
-
       }
 
         //点击下一页，向cookie中添加页面信息

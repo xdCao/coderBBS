@@ -6,10 +6,7 @@ import utils.Main;
 
 import javax.persistence.Query;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -31,6 +28,19 @@ public class UserLoginServlet extends HttpServlet{
         PrintWriter writer=resp.getWriter();
         if (isExsit==1){
             System.out.println("欢迎登录");
+            if (isRemember!=null){
+                if (isRemember.equals("on")){
+                    Cookie c1=new Cookie("username", userName);
+                    Cookie c2=new Cookie("password",password);
+                    //设置过期时间
+                    c1.setMaxAge(6000);
+                    c2.setMaxAge(6000);
+                    //存储
+                    resp.addCookie(c1);
+                    resp.addCookie(c2);
+                    System.out.println("加了cookie11111111111111111111111111111111111111111111111111111111111111111111111111");
+                }
+            }
             Users user=new Users();
             user.setUsername(userName);
             req.getSession().setAttribute("user",user);
