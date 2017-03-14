@@ -154,10 +154,13 @@
     <script type="text/javascript" src="js/jquery.form.js"></script>
     <script type="text/javascript" src="js/bootbox.js"></script>
     <script>
-
+        var username=null;
+        var password=null;
         $(document).ready(function () {
 
             validateLogin();
+
+            reqInfo();
 
             //轮播设置
             $('.carousel').carousel({
@@ -173,7 +176,6 @@
                 $('#loginModal').modal();
             });
             $("#writeGo").click(function () {
-                var username=getUrlParam("username");
                 if (username==null){
                     alert("请先登录用户！");
                 }else {
@@ -232,11 +234,13 @@
             }
         }
 
+
+
         //检查用户是否登录
         function validateLogin() {
 
-        var username=getCookie("username");
-        var password=getCookie("password");
+        username=getCookie("username");
+        password=getCookie("password");
         console.log("cookie: username:"+username);
         console.log("cookie:password:"+password);
 
@@ -299,20 +303,31 @@
               var xmlHttp=new XMLHttpRequest();
               xmlHttp.open("GET","http://localhost:8080/main?id="+i,false);
               xmlHttp.send();
+              console.log(xmlHttp.responseText);
               if (xmlHttp.readyState==4 && xmlHttp.status==200){
-//                  console.log(xmlHttp.responseText);
+
                   try {
                       var post=JSON.parse(xmlHttp.responseText);
                       document.getElementById("title_"+(i%15==0?15:i%15)).innerHTML=post[0]["title"];
-                      document.getElementById("title_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
                       document.getElementById("author_"+(i%15==0?15:i%15)).innerHTML=post[0]["author"];
-                      document.getElementById("author_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
                       document.getElementById("date_"+(i%15==0?15:i%15)).innerHTML=(parseInt(post[0]["createDate"]["year"])%100+2000)+"-"+(parseInt(post[0]["createDate"]["month"])+1)+"-"+post[0]["createDate"]["day"];
-                      document.getElementById("date_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
                       document.getElementById("scan_"+(i%15==0?15:i%15)).innerHTML=post[0]["scan"];
-                      document.getElementById("scan_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
                       document.getElementById("save_"+(i%15==0?15:i%15)).innerHTML=post[0]["favor"];
-                      document.getElementById("save_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
+                      if(username==null||username==undefined||username==""){
+                          document.getElementById("title_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
+                          document.getElementById("author_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
+                          document.getElementById("date_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
+                          document.getElementById("scan_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
+                          document.getElementById("save_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
+                      }else {
+                          document.getElementById("title_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i+"&username="+username+"&password="+password);
+                          document.getElementById("author_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i+"&username="+username+"&password="+password);
+                          document.getElementById("date_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i+"&username="+username+"&password="+password);
+                          document.getElementById("scan_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i+"&username="+username+"&password="+password);
+                          document.getElementById("save_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i+"&username="+username+"&password="+password);
+                      }
+
+
                   }catch (e){
 
                   }
@@ -367,7 +382,7 @@
 
     </script>
 </head>
-<body onload="reqInfo()">
+<body>
 
 <!----------------------------------------------------------导航栏------------------------------------------------------>
 <nav class="top_bar navbar navbar-default navbar-fixed-top" role="navigation">

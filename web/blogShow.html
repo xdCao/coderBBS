@@ -23,12 +23,28 @@
             margin-left: 0;
             width: 100%;
         }
+        #welcome{
+            display: none;
+            color: black;
+            margin-top: 10px;
+            margin-right: 20px;
+        }
+        .myheart{
+            float: left;
+            color: rgb(255, 0, 0);
+            font-size: 15px;
+            margin-left: 5%;
+            padding: 5px;
+        }
     </style>
 
     <script>
         $(document).ready(function () {
+
+           validateLogin();
+
            var req=new XMLHttpRequest();
-           var id=GetQueryString("id");
+           var id=getUrlParam("id");
            console.log("id= "+id);
            req.open("Get","http://localhost:8080/readBlog?id="+id,true);
            req.send();
@@ -44,14 +60,100 @@
                }
            };
 
+           var clickCount=0;
+           $("#favor").click(function () {
+               if(clickCount%2==0){
+                   $("#favor").removeClass("glyphicon-heart-empty").addClass("glyphicon-heart").text("已收藏");
+                   clickCount++;
+                   incrementFavor(1);
+               }else if(clickCount%2==1){
+                   $("#favor").removeClass("glyphicon-heart").addClass("glyphicon-heart-empty").text("收藏");
+                   clickCount++;
+                   incrementFavor(-1);
+               }
+
+           });
+
         });
 
+        function incrementFavor(num) {
+            var id=getUrlParam("id");
+            var xmlHttpFavor=new XMLHttpRequest();
+            xmlHttpFavor.open("GET","http://localhost:8080/favorOperation?count="+num+"&id="+id,false);
+            xmlHttpFavor.send();
+            if (xmlHttpFavor.readyState==4 && xmlHttpFavor.status==200){
+                if(xmlHttpFavor.responseText=="1"){
+                    var save=parseInt($("#save").text())+1;
+                    $("#save").text(save);
+                }else if(xmlHttpFavor.responseText=="-1"){
+                    var save=parseInt($("#save").text())-1;
+                    $("#save").text(save);
+                }
+            }
+        }
 
-        function GetQueryString(name)
+
+        function getUrlParam(name)
         {
             var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
             var r = window.location.search.substr(1).match(reg);
             if(r!=null)return  unescape(r[2]); return null;
+        }
+
+
+        //设置cookie
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            var expires = "expires="+d.toUTCString();
+            document.cookie = cname + "=" + cvalue + "; " + expires;
+        }
+        //获取cookie
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0; i<ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1);
+                if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
+            }
+            return "";
+        }
+        //清除cookie
+        function clearCookie(name) {
+            setCookie(name, "", -1);
+        }
+
+
+        function validateLogin() {
+
+            var username=getCookie("username");
+            var password=getCookie("password");
+            console.log("cookie: username:"+username);
+            console.log("cookie:password:"+password);
+
+            if(username==null||username==undefined||username==""){
+                username=getUrlParam("username");
+                if(username==null||username==undefined||username==""){}else {
+                    document.getElementById("registGo").style.display="none";
+                    document.getElementById("loginGo").style.display="none";
+                    $("#welcome").text("欢迎，"+username);
+                    document.getElementById("welcome").style.display="inline-block";
+                }
+            }else {
+                console.log("进入请求");
+                var xmlHttpIsLogin=new XMLHttpRequest();
+                xmlHttpIsLogin.open("GET","http://localhost:8080/userlogin?username="+username+"&"+"password="+password,false);
+                xmlHttpIsLogin.send();
+                if (xmlHttpIsLogin.readyState==4 && xmlHttpIsLogin.status==200){
+                    if(xmlHttpIsLogin.responseText=="1"){
+                        document.getElementById("registGo").style.display="none";
+                        document.getElementById("loginGo").style.display="none";
+                        $("#welcome").text("欢迎，"+username);
+                        document.getElementById("welcome").style.display="inline-block";
+                    }
+                }
+            }
         }
 
 
@@ -63,6 +165,7 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="#">CoderBBS</a>
         <ul class="nav navbar-nav navbar-right">
+            <li><span id="welcome" class="text-success"></span></li>
             <li><a id="registGo" href="#"><span class="glyphicon glyphicon-user"></span>注册</a></li>
             <li><a id="loginGo" href="#"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>
         </ul>
@@ -75,17 +178,21 @@
         <div id="head">
             <div>
                 <h1 id="title" class="text-left">title</h1>
+                <div>
+                    <a href="#"><span id="favor" class="glyphicon glyphicon-heart-empty myheart">收藏</span></a>
+                    <!--<span id="hasFavored" class="glyphicon glyphicon-heart myheart">已收藏</span>-->
+                </div>
             </div>
             <div id="author" class="text-right">caohao</div>
             <div id="date" class="text-right">2017-11-22</div>
             <hr>
             <div class="text-center">
                 <label>查阅：</label>
-                <span id="scan">11</span>
+                <span id="scan"></span>
             </div>
             <div class="text-center">
                 <label>收藏：</label>
-                <span id="save">22</span>
+                <span id="save"></span>
             </div>
 
         </div>

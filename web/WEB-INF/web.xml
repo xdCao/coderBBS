@@ -58,4 +58,13 @@
         <url-pattern>/userregist</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>favorOperationServlet</servlet-name>
+        <servlet-class>action.favorOperationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>favorOperationServlet</servlet-name>
+        <url-pattern>/favorOperation</url-pattern>
+    </servlet-mapping>
+
 </web-app>

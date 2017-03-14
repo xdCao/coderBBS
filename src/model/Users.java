@@ -1,12 +1,10 @@
 package model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by xdcao on 2017/3/11.
+ * Created by xdcao on 2017/3/14.
  */
 @Entity
 public class Users {
@@ -15,9 +13,12 @@ public class Users {
     private String nick;
     private String sex;
     private Integer age;
+    private Integer postId;
+    private int id;
+    private Collection<Post> postsById;
 
-    @Id
-    @Column(name = "username", nullable = false, length = 11)
+    @Basic
+    @Column(name = "username", nullable = true, length = 255)
     public String getUsername() {
         return username;
     }
@@ -34,26 +35,6 @@ public class Users {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Users users = (Users) o;
-
-        if (username != null ? !username.equals(users.username) : users.username != null) return false;
-        if (password != null ? !password.equals(users.password) : users.password != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = username != null ? username.hashCode() : 0;
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        return result;
     }
 
     @Basic
@@ -84,5 +65,64 @@ public class Users {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    @Basic
+    @Column(name = "post_id", nullable = true)
+    public Integer getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Integer postId) {
+        this.postId = postId;
+    }
+
+    @Id
+    @Column(name = "id", nullable = false)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Users users = (Users) o;
+
+        if (id != users.id) return false;
+        if (username != null ? !username.equals(users.username) : users.username != null) return false;
+        if (password != null ? !password.equals(users.password) : users.password != null) return false;
+        if (nick != null ? !nick.equals(users.nick) : users.nick != null) return false;
+        if (sex != null ? !sex.equals(users.sex) : users.sex != null) return false;
+        if (age != null ? !age.equals(users.age) : users.age != null) return false;
+        if (postId != null ? !postId.equals(users.postId) : users.postId != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = username != null ? username.hashCode() : 0;
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (nick != null ? nick.hashCode() : 0);
+        result = 31 * result + (sex != null ? sex.hashCode() : 0);
+        result = 31 * result + (age != null ? age.hashCode() : 0);
+        result = 31 * result + (postId != null ? postId.hashCode() : 0);
+        result = 31 * result + id;
+        return result;
+    }
+
+    @OneToMany(mappedBy = "usersByUserId")
+    public Collection<Post> getPostsById() {
+        return postsById;
+    }
+
+    public void setPostsById(Collection<Post> postsById) {
+        this.postsById = postsById;
     }
 }

@@ -38,7 +38,6 @@ public class UserLoginServlet extends HttpServlet{
                     //存储
                     resp.addCookie(c1);
                     resp.addCookie(c2);
-                    System.out.println("加了cookie11111111111111111111111111111111111111111111111111111111111111111111111111");
                 }
             }
             Users user=new Users();

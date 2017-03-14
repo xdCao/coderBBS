@@ -1,5 +1,6 @@
 package utils;
 
+import javafx.geometry.Pos;
 import model.Post;
 import net.sf.json.JSONArray;
 import org.hibernate.*;
@@ -44,10 +45,12 @@ public class Main {
         List<Post> posts=query.getResultList();
         resp.setCharacterEncoding("utf-8");
         PrintWriter out = resp.getWriter();
-        for (Post post:posts){
+        if (posts.size()>0){
+            Post post=posts.get(0);
+            System.out.print(post.getAuthor());
             JSONArray jsonArray=JSONArray.fromObject(post);
-            out.print(jsonArray.toString());
             System.out.println(jsonArray.toString());
+            out.print(jsonArray.toString());
         }
         out.close();
     }

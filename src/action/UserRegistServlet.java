@@ -41,8 +41,9 @@ public class UserRegistServlet extends HttpServlet {
         Transaction transaction=session.beginTransaction();
         String hql="select count(*) from Users where username="+username;
         Query query=session.createQuery(hql);
-        List<Object> count=query.getResultList();
-        if(count.size()==0){
+        List<Long> count=query.getResultList();
+        System.out.print(count);
+        if(count.get(0)==0){
             session.save(user);
             transaction.commit();
             session.close();
