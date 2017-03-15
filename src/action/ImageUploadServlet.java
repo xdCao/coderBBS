@@ -1,5 +1,6 @@
 package action;
 
+import model.Image;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -47,7 +48,9 @@ public class ImageUploadServlet extends HttpServlet {
                     System.out.println(fileItem.getName());
                     //上传;
                     try {
-                        fileItem.write(new File("D:\\",fileItem.getName()));
+//                        fileItem.write(new File("D:\\",fileItem.getName()));
+                        Image image=new Image();
+                        image.setContent(fileItem);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

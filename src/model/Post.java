@@ -1,9 +1,7 @@
 package model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -18,6 +16,7 @@ public class Post {
     private Integer scan;
     private Integer favor;
     private String content;
+    private Collection<Image> imagesById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -117,5 +116,14 @@ public class Post {
         result = 31 * result + (favor != null ? favor.hashCode() : 0);
         result = 31 * result + (content != null ? content.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany()
+    public Collection<Image> getImagesById() {
+        return imagesById;
+    }
+
+    public void setImagesById(Collection<Image> imagesById) {
+        this.imagesById = imagesById;
     }
 }

@@ -16,84 +16,150 @@
     <schema id="10" parent="1" name="sampledb"/>
     <schema id="11" parent="1" name="test"/>
     <schema id="12" parent="1" name="world"/>
-    <table id="13" parent="2" name="post"/>
-    <table id="14" parent="2" name="users"/>
-    <column id="15" parent="13" name="id">
+    <table id="13" parent="2" name="image"/>
+    <table id="14" parent="2" name="post"/>
+    <table id="15" parent="2" name="users"/>
+    <table id="16" parent="2" name="users_post"/>
+    <column id="17" parent="13" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="16" parent="13" name="title">
+    <column id="18" parent="13" name="content">
       <Position>2</Position>
-      <DataType>varchar(255)|0</DataType>
+      <DataType>blob|0</DataType>
     </column>
-    <column id="17" parent="13" name="author">
+    <column id="19" parent="13" name="post_id">
       <Position>3</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="18" parent="13" name="create_date">
-      <Position>4</Position>
-      <DataType>date|0</DataType>
-    </column>
-    <column id="19" parent="13" name="scan">
-      <Position>5</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="20" parent="13" name="favor">
-      <Position>6</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="21" parent="13" name="content">
-      <Position>7</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="22" parent="13" name="user_id">
-      <Position>8</Position>
       <DataType>int(11)|0</DataType>
     </column>
-    <index id="23" parent="13" name="fk_user">
-      <ColNames>user_id</ColNames>
+    <column id="20" parent="13" name="index">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <index id="21" parent="13" name="fk_post">
+      <ColNames>post_id</ColNames>
     </index>
-    <key id="24" parent="13" name="PRIMARY">
+    <key id="22" parent="13" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="25" parent="13" name="fk_user">
+    <foreign-key id="23" parent="13" name="fk_post">
+      <ColNames>post_id</ColNames>
+      <RefSchemaName>coderbbs</RefSchemaName>
+      <RefTableName>post</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="24" parent="14" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="25" parent="14" name="title">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="26" parent="14" name="author">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="27" parent="14" name="create_date">
+      <Position>4</Position>
+      <DataType>date|0</DataType>
+    </column>
+    <column id="28" parent="14" name="scan">
+      <Position>5</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="29" parent="14" name="favor">
+      <Position>6</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="30" parent="14" name="content">
+      <Position>7</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="31" parent="14" name="user_id">
+      <Position>8</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <index id="32" parent="14" name="fk_user">
+      <ColNames>user_id</ColNames>
+    </index>
+    <key id="33" parent="14" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="34" parent="14" name="fk_user">
       <ColNames>user_id</ColNames>
       <RefSchemaName>coderbbs</RefSchemaName>
       <RefTableName>users</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="26" parent="14" name="username">
+    <column id="35" parent="15" name="username">
       <Position>2</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="27" parent="14" name="password">
+    <column id="36" parent="15" name="password">
       <Position>3</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="28" parent="14" name="nick">
+    <column id="37" parent="15" name="nick">
       <Position>4</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="29" parent="14" name="sex">
+    <column id="38" parent="15" name="sex">
       <Position>5</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="30" parent="14" name="age">
+    <column id="39" parent="15" name="age">
       <Position>6</Position>
       <DataType>int(11)|0</DataType>
     </column>
-    <column id="31" parent="14" name="id">
+    <column id="40" parent="15" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <key id="32" parent="14" name="PRIMARY">
+    <key id="41" parent="15" name="PRIMARY">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
+    <column id="42" parent="16" name="Users_id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="43" parent="16" name="postsById_id">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="44" parent="16" name="FKk9u50x0io6ln3c8o8rrhbctf7">
+      <ColNames>Users_id</ColNames>
+    </index>
+    <index id="45" parent="16" name="UK_h2hnmqtl7rvrtvedtkh6x55y1">
+      <ColNames>postsById_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="46" parent="16" name="UK_h2hnmqtl7rvrtvedtkh6x55y1">
+      <ColNames>postsById_id</ColNames>
+      <UnderlyingIndexName>UK_h2hnmqtl7rvrtvedtkh6x55y1</UnderlyingIndexName>
+    </key>
+    <foreign-key id="47" parent="16" name="FKk9u50x0io6ln3c8o8rrhbctf7">
+      <ColNames>Users_id</ColNames>
+      <RefSchemaName>coderbbs</RefSchemaName>
+      <RefTableName>users</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="48" parent="16" name="FKd4cdyna3idd7al0f4ranm437v">
+      <ColNames>postsById_id</ColNames>
+      <RefSchemaName>coderbbs</RefSchemaName>
+      <RefTableName>post</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
   </database-model>
 </dataSource>
