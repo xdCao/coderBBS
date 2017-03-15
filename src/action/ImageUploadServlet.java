@@ -5,6 +5,9 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import utils.Main;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -51,6 +54,12 @@ public class ImageUploadServlet extends HttpServlet {
 //                        fileItem.write(new File("D:\\",fileItem.getName()));
                         Image image=new Image();
                         image.setContent(fileItem);
+                        image.setIndex(1);
+                        Session session= Main.getSession();
+                        Transaction transaction=session.beginTransaction();
+                        session.save(image);
+                        transaction.commit();
+                        session.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
