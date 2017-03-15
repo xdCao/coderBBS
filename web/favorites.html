@@ -19,9 +19,26 @@
             font-size: 14px;
         }
         .myTable{
-            margin: 20px 10% 20px 10%;
+            margin: 50px 10% 20px 10%;
         }
-        td{
+        .titleTd{
+            width: 50%;
+            text-align: center;
+        }
+        .authorTd{
+            width:10%;
+            text-align: center;
+        }
+        .dateTd{
+            width:20%;
+            text-align: center;
+        }
+        .scanTd{
+            width:10%;
+            text-align: center;
+        }
+        .saveTd{
+            width:10%;
             text-align: center;
         }
     </style>
@@ -100,19 +117,25 @@
 
         function reqMyFavoriteData(){
 
-            for(var i=0;i++;i<2){
+            for(var i=0;;i++){
 
                 var req=new XMLHttpRequest();
                 req.open("GET","http://localhost:8080/readFavorite?id="+i,false);
                 req.send();
                 console.log(req.responseText);
-                if(req.readyState==4&&req.status==200){
-                    var post=JSON.parse(req.responseText);
-                    document.getElementById("title_"+(i+1)).innerHTML=post[0]["title"];
-                    document.getElementById("author_"+(i+1)).innerHTML=post[0]["author"];
-                    document.getElementById("date_"+(i+1)).innerHTML=(parseInt(post[0]["createDate"]["year"])%100+2000)+"-"+(parseInt(post[0]["createDate"]["month"])+1)+"-"+post[0]["createDate"]["date"];
-                    document.getElementById("scan_"+(i+1)).innerHTML=post[0]["scan"];
-                    document.getElementById("save_"+(i+1)).innerHTML=post[0]["favor"];
+                if(req.readyState==4&&req.status==200) {
+                    var post = JSON.parse(req.responseText);
+                    $("#mybody").append("<tr><td class='titleTd'><a id='title_"+(i+1)+"' href='"+"/blogShow.html?id="+(i+1)+"'>"+post[0]["title"]+"</a></td>"
+                        +
+                        "<td class='authorTd'><a id='author_"+(i+1)+"' href='"+"/blogShow.html?id="+(i+1)+"'>"+post[0]["author"]+"</a></td>"
+                        +
+                        "<td class='dateTd'><a id='date_"+(i+1)+"' href='"+"/blogShow.html?id="+(i+1)+"'>"+(parseInt(post[0]["createDate"]["year"]) % 100 + 2000) + "-" + (parseInt(post[0]["createDate"]["month"]) + 1) + "-" + post[0]["createDate"]["date"]+"</a></td>"
+                        +
+                        "<td class='scanTd'><a id='scan_"+(i+1)+"' href='"+"/blogShow.html?id="+(i+1)+"'>"+post[0]["scan"]+"</a></td>"
+                        +
+                        "<td class='saveTd'><a id='save_"+(i+1)+"' href='"+"/blogShow.html?id="+(i+1)+"'>"+post[0]["favor"]+"</a></td></tr>" );
+                }else if (req.status==500){
+                    break;
                 }
 
 
@@ -156,9 +179,11 @@
     </div>
 </nav>
 
+<h1></h1>
+
 <div class="myTable">
     <table class="table table-hover">
-        <caption>悬停表格布局</caption>
+        <caption style="font-size: 20px">收藏列表</caption>
         <thead>
         <tr>
             <th>标题</th>
@@ -168,28 +193,7 @@
             <th>收藏</th>
         </tr>
         </thead>
-        <tbody>
-        <tr>
-            <td id="title_1">Tanmay</td>
-            <td id="author_1">Bangalore</td>
-            <td id="date_1">560001</td>
-            <td id="scan_1">1</td>
-            <td id="save_1">2</td>
-        </tr>
-        <tr>
-            <td id="title_2">Sachin</td>
-            <td id="author_2">Mumbai</td>
-            <td id="date_2">400003</td>
-            <td id="scan_2">1</td>
-            <td id="save_2">2</td>
-        </tr>
-        <tr>
-            <td>Uma</td>
-            <td>Pune</td>
-            <td>411027</td>
-            <td>1</td>
-            <td>2</td>
-        </tr>
+        <tbody id="mybody">
         </tbody>
     </table>
 </div>

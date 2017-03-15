@@ -30,24 +30,27 @@ public class readBlogServlet extends HttpServlet {
         String hql="from Post where id="+id;
         javax.persistence.Query query=session.createQuery(hql);
         List<Post> posts=query.getResultList();
-        Post post=posts.get(0);
-        if(post.getScan()==null){
-            post.setScan(1);
-        }else {
-            int scan=post.getScan()+1;
-            post.setScan(scan);
-        }
+        if (posts.size()>0){
+            Post post=posts.get(0);
+            if(post.getScan()==null){
+                post.setScan(1);
+            }else {
+                int scan=post.getScan()+1;
+                post.setScan(scan);
+            }
 
-        Transaction transaction=session.beginTransaction();
+            Transaction transaction=session.beginTransaction();
 //        String update="update Post set Post.scan="+scan+" where Post.id="+postId;
 //        Query updateQuery=session.createQuery(update);
 //        updateQuery.executeUpdate();
-        session.update(post);
-        transaction.commit();
-        JSONArray jsonArray=JSONArray.fromObject(post);
-        out.print(jsonArray.toString());
-        out.close();
-        System.out.println(jsonArray.toString());
+            session.update(post);
+            transaction.commit();
+            JSONArray jsonArray=JSONArray.fromObject(post);
+            out.print(jsonArray.toString());
+            out.close();
+            System.out.println(jsonArray.toString());
+        }
+        session.close();
 
 
     }

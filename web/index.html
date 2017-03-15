@@ -292,13 +292,15 @@
               console.log(maxPage);
           }
 
-          page=document.cookie.split(";")[0].split("=")[1];
+          page=getCookie("page");
 
           console.log("page: "+page);
 
-          if (page==null){
+          if (page==null||page==undefined||page==""){
               page=1;
           }
+
+          console.log("page: "+page);
 
           for(var i=(page-1)*15+1;i<=15*page;i++){
               var xmlHttp=new XMLHttpRequest();
@@ -307,31 +309,45 @@
               console.log(xmlHttp.responseText);
               if (xmlHttp.readyState==4 && xmlHttp.status==200){
 
-                  try {
-                      var post=JSON.parse(xmlHttp.responseText);
-                      document.getElementById("title_"+(i%15==0?15:i%15)).innerHTML=post[0]["title"];
-                      document.getElementById("author_"+(i%15==0?15:i%15)).innerHTML=post[0]["author"];
-                      document.getElementById("date_"+(i%15==0?15:i%15)).innerHTML=(parseInt(post[0]["createDate"]["year"])%100+2000)+"-"+(parseInt(post[0]["createDate"]["month"])+1)+"-"+post[0]["createDate"]["date"];
-                      document.getElementById("scan_"+(i%15==0?15:i%15)).innerHTML=post[0]["scan"];
-                      document.getElementById("save_"+(i%15==0?15:i%15)).innerHTML=post[0]["favor"];
-                      if(username==null||username==undefined||username==""){
-                          document.getElementById("title_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
-                          document.getElementById("author_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
-                          document.getElementById("date_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
-                          document.getElementById("scan_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
-                          document.getElementById("save_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i);
-                      }else {
-                          document.getElementById("title_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i+"&username="+username+"&password="+password);
-                          document.getElementById("author_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i+"&username="+username+"&password="+password);
-                          document.getElementById("date_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i+"&username="+username+"&password="+password);
-                          document.getElementById("scan_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i+"&username="+username+"&password="+password);
-                          document.getElementById("save_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i+"&username="+username+"&password="+password);
-                      }
+
+                  var post=JSON.parse(xmlHttp.responseText);
+
+//                      document.getElementById("title_"+(i%15==0?15:i%15)).innerHTML=post[0]["title"];
+//                      document.getElementById("author_"+(i%15==0?15:i%15)).innerHTML=post[0]["author"];
+//                      document.getElementById("date_"+(i%15==0?15:i%15)).innerHTML=(parseInt(post[0]["createDate"]["year"])%100+2000)+"-"+(parseInt(post[0]["createDate"]["month"])+1)+"-"+post[0]["createDate"]["date"];
+//                      document.getElementById("scan_"+(i%15==0?15:i%15)).innerHTML=post[0]["scan"];
+//                      document.getElementById("save_"+(i%15==0?15:i%15)).innerHTML=post[0]["favor"];
+                  if(username==null||username==undefined||username==""){
+                      $("#mybody").append("<tr><td class='titleTd'><a id='title_"+(i+1)+"' href='"+"/blogShow.html?id="+i+"'>"+post[0]["title"]+"</a></td>"
+                          +
+                          "<td class='authorTd'><a id='author_"+i+"' href='"+"/blogShow.html?id="+i+"'>"+post[0]["author"]+"</a></td>"
+                          +
+                          "<td class='dateTd'><a id='date_"+i+"' href='"+"/blogShow.html?id="+i+"'>"+(parseInt(post[0]["createDate"]["year"]) % 100 + 2000) + "-" + (parseInt(post[0]["createDate"]["month"]) + 1) + "-" + post[0]["createDate"]["date"]+"</a></td>"
+                          +
+                          "<td class='scanTd'><a id='scan_"+i+"' href='"+"/blogShow.html?id="+i+"'>"+post[0]["scan"]+"</a></td>"
+                          +
+                          "<td class='saveTd'><a id='save_"+i+"' href='"+"/blogShow.html?id="+i+"'>"+post[0]["favor"]+"</a></td></tr>" );
+                  }else {
+                      $("#mybody").append("<tr><td class='titleTd'><a id='title_"+(i+1)+"' href='"+"/blogShow.html?id="+i+"&username="+username+"&password="+password+"'>"+post[0]["title"]+"</a></td>"
+                          +
+                          "<td class='authorTd'><a id='author_"+i+"' href='"+"/blogShow.html?id="+i+"&username="+username+"&password="+password+"'>"+post[0]["author"]+"</a></td>"
+                          +
+                          "<td class='dateTd'><a id='date_"+i+"' href='"+"/blogShow.html?id="+i+"&username="+username+"&password="+password+"'>"+(parseInt(post[0]["createDate"]["year"]) % 100 + 2000) + "-" + (parseInt(post[0]["createDate"]["month"]) + 1) + "-" + post[0]["createDate"]["date"]+"</a></td>"
+                          +
+                          "<td class='scanTd'><a id='scan_"+i+"' href='"+"/blogShow.html?id="+i+"&username="+username+"&password="+password+"'>"+post[0]["scan"]+"</a></td>"
+                          +
+                          "<td class='saveTd'><a id='save_"+i+"' href='"+"/blogShow.html?id="+i+"&username="+username+"&password="+password+"'>"+post[0]["favor"]+"</a></td></tr>" );
 
 
-                  }catch (e){
-
+//                      document.getElementById("title_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i+"&username="+username+"&password="+password);
+//                      document.getElementById("author_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i+"&username="+username+"&password="+password);
+//                      document.getElementById("date_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i+"&username="+username+"&password="+password);
+//                      document.getElementById("scan_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i+"&username="+username+"&password="+password);
+//                      document.getElementById("save_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i+"&username="+username+"&password="+password);
                   }
+
+              }else if (xmlHttp.status==500){
+                  break;
               }
           }
       }
@@ -388,9 +404,9 @@
 <!----------------------------------------------------------导航栏------------------------------------------------------>
 <nav class="top_bar navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">CoderBBS</a>
+        <a class="navbar-brand" href="#" style="color: white;">CoderBBS</a>
         <ul class="nav navbar-nav navbar-left">
-            <li><a id="writeGo" href="#"><span class="glyphicon glyphicon-edit">写博客</span></a></li>
+            <li><a id="writeGo" href="#"><span class="glyphicon glyphicon-edit" style="color: white;font-size: 14px">写博客</span></a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li>
@@ -399,15 +415,15 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li>
-                        <a href="/favorites.html">我的收藏</a>
+                        <a href="/favorites.html"><span class="glyphicon glyphicon-star" style="color: rgb(0, 0, 0); font-size: 16px">&nbsp;我的收藏</span></a>
                     </li>
                     <li class="divider"></li>
                     <li >
-                        <a href="#">用户信息</a>
+                        <a href="#"><span class="glyphicon glyphicon-th-list" style="color: rgb(0, 0, 0);font-size: 16px;">&nbsp;用户信息</span></a>
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="#">设置</a>
+                        <a href="#"><span class="glyphicon glyphicon-edit" style="color: rgb(0, 0, 0);font-size: 16px;">&nbsp;设置</span></a>
                     </li>
                 </ul>
             </li>
@@ -474,128 +490,14 @@
         <th width="10%">收藏</th>
         </tr>
         </thead>
-        <tbody>
-        <tr>
-            <td class="titleTd"><a id="title_1" href="#"></a></td>
-            <td class="authorTd"><a id="author_1" href="#"></a></td>
-            <td class="dateTd"><a id="date_1" href="#"></a></td>
-            <td class="scanTd"><a id="scan_1" href="#"></a></td>
-            <td class="saveTd"><a id="save_1" href="#"></a></td>
-        </tr>
-
-        <tr>
-            <td class="titleTd"><a id="title_2" href="#"></a></td>
-            <td class="authorTd"><a id="author_2" href="#"></a></td>
-            <td class="dateTd"><a id="date_2" href="#"></a></td>
-            <td class="scanTd"><a id="scan_2" href="#"></a></td>
-            <td class="saveTd"><a id="save_2" href="#"></a></td>
-        </tr>
-
-
-        <tr>
-            <td class="titleTd"><a id="title_3" href="#"></a></td>
-            <td class="authorTd"><a id="author_3" href="#"></a></td>
-            <td class="dateTd"><a id="date_3" href="#"></a></td>
-            <td class="scanTd"><a id="scan_3" href="#"></a></td>
-            <td class="saveTd"><a id="save_3" href="#"></a></td>
-        </tr>
-
-        <tr>
-            <td class="titleTd"><a id="title_4" href="#"></a></td>
-            <td class="authorTd"><a id="author_4" href="#"></a></td>
-            <td class="dateTd"><a id="date_4" href="#"></a></td>
-            <td class="scanTd"><a id="scan_4" href="#"></a></td>
-            <td class="saveTd"><a id="save_4" href="#"></a></td>
-        </tr>
-
-        <tr>
-            <td class="titleTd"><a id="title_5" href="#"></a></td>
-            <td class="authorTd"><a id="author_5" href="#"></a></td>
-            <td class="dateTd"><a id="date_5" href="#"></a></td>
-            <td class="scanTd"><a id="scan_5" href="#"></a></td>
-            <td class="saveTd"><a id="save_5" href="#"></a></td>
-        </tr>
-
-
-        <tr>
-            <td class="titleTd"><a id="title_6" href="#"></a></td>
-            <td class="authorTd"><a id="author_6" href="#"></a></td>
-            <td class="dateTd"><a id="date_6" href="#"></a></td>
-            <td class="scanTd"><a id="scan_6" href="#"></a></td>
-            <td class="saveTd"><a id="save_6" href="#"></a></td>
-        </tr>
-
-        <tr>
-            <td class="titleTd"><a id="title_7" href="#"></a></td>
-            <td class="authorTd"><a id="author_7" href="#"></a></td>
-            <td class="dateTd"><a id="date_7" href="#"></a></td>
-            <td class="scanTd"><a id="scan_7" href="#"></a></td>
-            <td class="saveTd"><a id="save_7" href="#"></a></td>
-        </tr>
-
-        <tr>
-            <td class="titleTd"><a id="title_8" href="#"></a></td>
-            <td class="authorTd"><a id="author_8" href="#"></a></td>
-            <td class="dateTd"><a id="date_8" href="#"></a></td>
-            <td class="scanTd"><a id="scan_8" href="#"></a></td>
-            <td class="saveTd"><a id="save_8" href="#"></a></td>
-        </tr>
-
-        <tr>
-            <td class="titleTd"><a id="title_9" href="#"></a></td>
-            <td class="authorTd"><a id="author_9" href="#"></a></td>
-            <td class="dateTd"><a id="date_9" href="#"></a></td>
-            <td class="scanTd"><a id="scan_9" href="#"></a></td>
-            <td class="saveTd"><a id="save_9" href="#"></a></td>
-        </tr>
-
-        <tr>
-            <td class="titleTd"><a id="title_10" href="#"></a></td>
-            <td class="authorTd"><a id="author_10" href="#"></a></td>
-            <td class="dateTd"><a id="date_10" href="#"></a></td>
-            <td class="scanTd"><a id="scan_10" href="#"></a></td>
-            <td class="saveTd"><a id="save_10" href="#"></a></td>
-        </tr>
-
-        <tr>
-            <td class="titleTd"><a id="title_11" href="#"></a></td>
-            <td class="authorTd"><a id="author_11" href="#"></a></td>
-            <td class="dateTd"><a id="date_11" href="#"></a></td>
-            <td class="scanTd"><a id="scan_11" href="#"></a></td>
-            <td class="saveTd"><a id="save_11" href="#"></a></td>
-        </tr>
-
-        <tr>
-            <td class="titleTd"><a id="title_12" href="#"></a></td>
-            <td class="authorTd"><a id="author_12" href="#"></a></td>
-            <td class="dateTd"><a id="date_12" href="#"></a></td>
-            <td class="scanTd"><a id="scan_12" href="#"></a></td>
-            <td class="saveTd"><a id="save_12" href="#"></a></td>
-        </tr>
-
-        <tr>
-            <td class="titleTd"><a id="title_13" href="#"></a></td>
-            <td class="authorTd"><a id="author_13" href="#"></a></td>
-            <td class="dateTd"><a id="date_13" href="#"></a></td>
-            <td class="scanTd"><a id="scan_13" href="#"></a></td>
-            <td class="saveTd"><a id="save_13" href="#"></a></td>
-        </tr>
-
-        <tr>
-            <td class="titleTd"><a id="title_14" href="#"></a></td>
-            <td class="authorTd"><a id="author_14" href="#"></a></td>
-            <td class="dateTd"><a id="date_14" href="#"></a></td>
-            <td class="scanTd"><a id="scan_14" href="#"></a></td>
-            <td class="saveTd"><a id="save_14" href="#"></a></td>
-        </tr>
-
-        <tr>
-            <td class="titleTd"><a id="title_15" href="#"></a></td>
-            <td class="authorTd"><a id="author_15" href="#"></a></td>
-            <td class="dateTd"><a id="date_15" href="#"></a></td>
-            <td class="scanTd"><a id="scan_15" href="#"></a></td>
-            <td class="saveTd"><a id="save_15" href="#"></a></td>
-        </tr>
+        <tbody id="mybody">
+        <!--<tr>-->
+            <!--<td class="titleTd"><a id="title_1" href="#"></a></td>-->
+            <!--<td class="authorTd"><a id="author_1" href="#"></a></td>-->
+            <!--<td class="dateTd"><a id="date_1" href="#"></a></td>-->
+            <!--<td class="scanTd"><a id="scan_1" href="#"></a></td>-->
+            <!--<td class="saveTd"><a id="save_1" href="#"></a></td>-->
+        <!--</tr>-->
         </tbody>
     </table>
 

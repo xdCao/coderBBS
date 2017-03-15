@@ -71,6 +71,8 @@
                         $("#favor").addClass("glyphicon glyphicon-heart").text("已收藏");
                     }else if(isFavor.responseText=="nofavor"){
                         $("#favor").addClass("glyphicon glyphicon-heart-empty").text("收藏");
+                    }else if(isFavor.responseText=="nouser"){
+                        $("#favor").text("尚未登录");
                     }
                 }
             }
@@ -214,14 +216,14 @@
     <div class="row">
         <div id="head">
             <div>
-                <h1 id="title" class="text-left">title</h1>
+                <h1 id="title" class="text-left"></h1>
                 <div>
                     <a><span id="favor" class="myheart"></span></a>
                     <!--<span id="hasFavored" class="glyphicon glyphicon-heart myheart">已收藏</span>-->
                 </div>
             </div>
-            <div id="author" class="text-right">caohao</div>
-            <div id="date" class="text-right">2017-11-22</div>
+            <div id="author" class="text-right"></div>
+            <div id="date" class="text-right"></div>
             <hr>
             <div class="text-center">
                 <label>查阅：</label>

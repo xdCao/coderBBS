@@ -20,16 +20,20 @@ public class isFavorServlet extends HttpServlet {
         int id=Integer.parseInt(req.getParameter("id"));
         PrintWriter out=resp.getWriter();
         Users users= (Users) req.getSession().getAttribute("currentUser");
-        if (users.getPostsById().size()>0){
-            for (Post post:users.getPostsById()){
-                if (id==post.getId()){
-                    out.print("favored");
-                    out.close();
-                    return;
+        if (users!=null){
+            if (users.getPostsById().size()>0){
+                for (Post post:users.getPostsById()){
+                    if (id==post.getId()){
+                        out.print("favored");
+                        out.close();
+                        return;
+                    }
                 }
             }
+            out.print("nofavor");
+        }else {
+            out.print("nouser");
         }
-        out.print("nofavor");
         out.close();
     }
 }
