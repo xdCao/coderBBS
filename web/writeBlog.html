@@ -134,6 +134,20 @@
                 }
             })
 
+            var file=document.getElementById("add").files.item(0);
+            var formData=new FormData();
+            formData.append("myImage",file);
+            console.log(file);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState==4&&xhr.status==200){
+                    console.log(xhr.responseText);
+                    alert("成功");
+                }
+            }
+            xhr.open("POST", "/imageUpload", true);
+            xhr.send(formData);
+
         }
 
         function selectFile(){
@@ -144,17 +158,12 @@
 
 
         function addImage(){  //添加图片
-            // //读取图片
-            //var path = document.getElementById('add').value;
+
             console.log("addImage");
             var path = getFileUrl('add');
             console.log(path);
-            //向表格中添加该图片
-            document.execCommand('insertImage',false,path);
-//            newTd1.innerHTML = `<img src="${path}">`;
-            /*var realPath = getFileUrl('add');
-             alert(realPath);*/
 
+            document.execCommand('insertImage',false,path);
 
         }
 
@@ -290,7 +299,7 @@
     <button id="sub_btn" class="btn btn-default glyphicon glyphicon-ok" type="button" onclick="submitData()"><span>提交</span></button>
 </div>
 
-<input type="file" id="add" style="filter:alpha(opacity=0);opacity:0;width: 0;height: 0;" onchange="addImage()"/>
+<input name="myImage" type="file" id="add" style="filter:alpha(opacity=0);opacity:0;width: 0;height: 0;" onchange="addImage()"/>
 
 </body>
 </html>

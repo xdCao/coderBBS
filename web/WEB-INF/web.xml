@@ -86,5 +86,13 @@
         <url-pattern>/readFavorite</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ImageUploadServlet</servlet-name>
+        <servlet-class>action.ImageUploadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ImageUploadServlet</servlet-name>
+        <url-pattern>/imageUpload</url-pattern>
+    </servlet-mapping>
 
 </web-app>
