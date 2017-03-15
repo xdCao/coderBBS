@@ -65,6 +65,7 @@ public class ImageUploadServlet extends HttpServlet {
                         transaction.commit();
                         session.close();
 
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
