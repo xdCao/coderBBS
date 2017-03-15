@@ -1,6 +1,8 @@
 package action;
 
+import javafx.geometry.Pos;
 import model.Image;
+import model.Post;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -9,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import utils.Main;
 
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -51,10 +54,11 @@ public class ImageUploadServlet extends HttpServlet {
                     System.out.println(fileItem.getName());
                     //上传;
                     try {
-//                        fileItem.write(new File("D:\\",fileItem.getName()));
+                        File file=new File("D:\\myCoderBBSTemp\\",fileItem.getName());
+                        fileItem.write(file);
                         Image image=new Image();
-                        image.setContent(fileItem);
-                        image.setIndex(1);
+                        image.setContent(file.getAbsolutePath());
+                        image.setImageIndex(1);
                         Session session= Main.getSession();
                         Transaction transaction=session.beginTransaction();
                         session.save(image);

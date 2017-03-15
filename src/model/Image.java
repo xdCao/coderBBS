@@ -1,11 +1,10 @@
 package model;
 
-import org.apache.commons.fileupload.FileItem;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.sql.Blob;
 import java.util.Arrays;
 
 /**
@@ -14,8 +13,8 @@ import java.util.Arrays;
 @Entity
 public class Image {
     private int id;
-    private FileItem content;
-    private Integer index;
+    private String content;
+    private Integer imageIndex;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -28,24 +27,22 @@ public class Image {
     }
 
     @Basic
-    @Column(name = "content", nullable = true)
-    public FileItem getContent() {
+    @Column(name = "content", nullable = true, length = -1)
+    public String getContent() {
         return content;
     }
 
-    public void setContent(FileItem content) {
+    public void setContent(String content) {
         this.content = content;
     }
 
     @Basic
-    @Column(name = "index", nullable = true)
-    public Integer getIndex() {
-        return index;
+    @Column(name = "image_index", nullable = true)
+    public Integer getImageIndex() {
+        return imageIndex;
     }
 
-    public void setIndex(Integer index) {
-        this.index = index;
+    public void setImageIndex(Integer imageIndex) {
+        this.imageIndex = imageIndex;
     }
-
-
 }
