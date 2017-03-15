@@ -153,7 +153,10 @@
 
 <nav class="top_bar navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">CoderBBS</a>
+        <a class="navbar-brand" href="#" style="color: white;">CoderBBS</a>
+        <ul class="nav navbar-nav navbar-left">
+            <li><a id="writeGo" href="#"><span class="glyphicon glyphicon-edit" style="color: white;font-size: 14px">写博客</span></a></li>
+        </ul>
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <button id="welcome" type="button" class="glyphicon glyphicon-user btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -161,20 +164,20 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li>
-                        <a href="#">我的收藏</a>
+                        <a href="/favorites.html"><span class="glyphicon glyphicon-star" style="color: rgb(0, 0, 0); font-size: 16px">&nbsp;我的收藏</span></a>
                     </li>
                     <li class="divider"></li>
                     <li >
-                        <a href="#">用户信息</a>
+                        <a href="#"><span class="glyphicon glyphicon-th-list" style="color: rgb(0, 0, 0);font-size: 16px;">&nbsp;用户信息</span></a>
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="#">设置</a>
+                        <a href="#"><span class="glyphicon glyphicon-cog" style="color: rgb(0, 0, 0);font-size: 16px;">&nbsp;设置</span></a>
                     </li>
                 </ul>
             </li>
-            <li><a id="registGo" href="#"><span class="glyphicon glyphicon-user"></span>注册</a></li>
-            <li><a id="loginGo" href="#"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>
+            <li><a id="registGo"><span class="glyphicon glyphicon-user"></span>注册</a></li>
+            <li><a id="loginGo"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>
         </ul>
     </div>
 </nav>
@@ -183,7 +186,7 @@
 
 <div class="myTable">
     <table class="table table-hover">
-        <caption style="font-size: 20px">收藏列表</caption>
+        <caption style="font-size: 20px">我的收藏</caption>
         <thead>
         <tr>
             <th>标题</th>

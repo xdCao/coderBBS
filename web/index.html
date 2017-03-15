@@ -161,8 +161,6 @@
 
             validateLogin();
 
-            reqInfo();
-
             //轮播设置
             $('.carousel').carousel({
                 interval: 2000
@@ -203,7 +201,7 @@
                 return false;
             });
 
-
+            reqInfo();
 
 
         });
@@ -346,7 +344,7 @@
 //                      document.getElementById("save_"+(i%15==0?15:i%15)).setAttribute("href","/blogShow.html?id="+i+"&username="+username+"&password="+password);
                   }
 
-              }else if (xmlHttp.status==500){
+              }else{
                   break;
               }
           }
@@ -423,7 +421,7 @@
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="#"><span class="glyphicon glyphicon-edit" style="color: rgb(0, 0, 0);font-size: 16px;">&nbsp;设置</span></a>
+                        <a href="#"><span class="glyphicon glyphicon-cog" style="color: rgb(0, 0, 0);font-size: 16px;">&nbsp;设置</span></a>
                     </li>
                 </ul>
             </li>

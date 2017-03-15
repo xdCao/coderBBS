@@ -5,7 +5,7 @@
     <title>Editable WYSIWYG</title>
     <script src="js/http_code.jquery.com_jquery-3.1.1.js"></script>
     <link type="text/css" rel="stylesheet" href="js/bootstrap-3.3.5-dist/dist/css/bootstrap.css">
-    <link href="js/font-awesome-4.4.0/css/font-awesome.css" rel="stylesheet">
+    <link href="js/font-awesome-4.4.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="js/bootstrap-3.3.5-dist/dist/js/bootstrap.js"></script>
 
     <style>
@@ -42,6 +42,9 @@
             display: none;
             color: rgb(0, 0, 0);
             font-size: 14px;
+        }
+        #addImage{
+            color: #337ab7;
         }
     </style>
 
@@ -110,24 +113,6 @@
         }
 
 
-        $(document).ready(function () {
-
-            validateLogin();
-
-            $('#editControls a').click(function(e) {
-                switch($(this).data('role')) {
-                    case 'h1':
-                    case 'h2':
-                    case 'p':
-                        document.execCommand('formatBlock', false, '<' + $(this).data('role') + '>');
-                        break;
-                    default:
-                        document.execCommand($(this).data('role'), false, null);
-                        break;
-                }
-            });
-        });
-
         function submitData() {
 //            var req=new XMLHttpRequest();
 //            var url="/contentPost?"+"title="+document.getElementById("inputTitle").value+"&"+"author="+document.getElementById("inputAuthor").value+"&"+"content="+document.getElementById("editor").innerHTML;
@@ -150,7 +135,63 @@
             })
 
         }
-        
+
+        function selectFile(){
+            //触发 文件选择的click事件
+            $("#add").trigger("click");
+            //其他code如 alert($("#file").attr("value"))
+        }
+
+
+        function addImage(){  //添加图片
+            // //读取图片
+            //var path = document.getElementById('add').value;
+            console.log("addImage");
+            var path = getFileUrl('add');
+            console.log(path);
+            //向表格中添加该图片
+            document.execCommand('insertImage',false,path);
+//            newTd1.innerHTML = `<img src="${path}">`;
+            /*var realPath = getFileUrl('add');
+             alert(realPath);*/
+
+
+        }
+
+        /**
+         * 从 file 域获取 本地图片 url
+         */
+        function getFileUrl(sourceId) {
+            var url;
+
+            url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
+
+            return url;
+        }
+
+        $(document).ready(function () {
+
+            $("#addImage").click(function () {
+                selectFile();
+            })
+
+            $('#editControls a').click(function(e) {
+                switch($(this).data('role')) {
+                    case 'h1':
+                    case 'h2':
+                    case 'p':
+                        document.execCommand('formatBlock', false, '<' + $(this).data('role') + '>');
+                        break;
+                    default:
+                        document.execCommand($(this).data('role'), false, null);
+                        break;
+                }
+            });
+
+            validateLogin();
+
+        });
+
 
     </script>
 
@@ -159,28 +200,31 @@
 
 <nav class="top_bar navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">CoderBBS</a>
+        <a class="navbar-brand" href="#" style="color: black;">CoderBBS</a>
+        <ul class="nav navbar-nav navbar-left">
+            <li><a id="writeGo" href="#"><span class="glyphicon glyphicon-edit" style="color: black;font-size: 14px">写博客</span></a></li>
+        </ul>
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <button id="welcome" type="button" class="glyphicon glyphicon-user btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                <button id="welcome" type="button" class="glyphicon glyphicon-user btn btn-default dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li>
-                        <a href="#">我的收藏</a>
+                        <a href="/favorites.html"><span class="glyphicon glyphicon-star" style="color: rgb(0, 0, 0); font-size: 16px">&nbsp;我的收藏</span></a>
                     </li>
                     <li class="divider"></li>
                     <li >
-                        <a href="#">用户信息</a>
+                        <a href="#"><span class="glyphicon glyphicon-th-list" style="color: rgb(0, 0, 0);font-size: 16px;">&nbsp;用户信息</span></a>
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="#">设置</a>
+                        <a href="#"><span class="glyphicon glyphicon-cog" style="color: rgb(0, 0, 0);font-size: 16px;">&nbsp;设置</span></a>
                     </li>
                 </ul>
             </li>
-            <li><a id="registGo" href="#"><span class="glyphicon glyphicon-user"></span>注册</a></li>
-            <li><a id="loginGo" href="#"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>
+            <li><a id="registGo"><span class="glyphicon glyphicon-user"></span>注册</a></li>
+            <li><a id="loginGo"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>
         </ul>
     </div>
 </nav>
@@ -199,8 +243,8 @@
             <div id="editparent">
                 <div id='editControls' class='span12' style='text-align:center; padding:5px;'>
                     <div class='btn-group'>
-                        <a class='btn' data-role='undo' href='#'><i class='icon-undo'></i></a>
-                        <a class='btn' data-role='redo' href='#'><i class='icon-repeat'></i></a>
+                        <a class='btn' data-role='undo' href='#'><i class='fa fa-undo'></i></a>
+                        <a class='btn' data-role='redo' href='#'><i class='fa fa-repeat'></i></a>
                     </div>
                     <div class='btn-group'>
                         <a class='btn' data-role='bold' href='#'><b>Bold</b></a>
@@ -209,18 +253,21 @@
                         <a class='btn' data-role='strikeThrough' href='#'><strike>abc</strike></a>
                     </div>
                     <div class='btn-group'>
-                        <a class='btn' data-role='justifyLeft' href='#'><i class='icon-align-left'></i></a>
-                        <a class='btn' data-role='justifyCenter' href='#'><i class='icon-align-center'></i></a>
-                        <a class='btn' data-role='justifyRight' href='#'><i class='icon-align-right'></i></a>
-                        <a class='btn' data-role='justifyFull' href='#'><i class='icon-align-justify'></i></a>
+                        <i id="addImage" class="fa fa-file-image-o btn"></i>
                     </div>
                     <div class='btn-group'>
-                        <a class='btn' data-role='indent' href='#'><i class='icon-indent-right'></i></a>
-                        <a class='btn' data-role='outdent' href='#'><i class='icon-indent-left'></i></a>
+                        <a class='btn' data-role='justifyLeft' href='#'><i class='fa fa-align-left'></i></a>
+                        <a class='btn' data-role='justifyCenter' href='#'><i class='fa fa-align-center'></i></a>
+                        <a class='btn' data-role='justifyRight' href='#'><i class='fa fa-align-right'></i></a>
+                        <a class='btn' data-role='justifyFull' href='#'><i class='fa fa-align-justify'></i></a>
                     </div>
                     <div class='btn-group'>
-                        <a class='btn' data-role='insertUnorderedList' href='#'><i class='icon-list-ul'></i></a>
-                        <a class='btn' data-role='insertOrderedList' href='#'><i class='icon-list-ol'></i></a>
+                        <a class='btn' data-role='indent' href='#'><i class='fa fa-indent'></i></a>
+                        <a class='btn' data-role='outdent' href='#'><i class='fa fa-outdent'></i></a>
+                    </div>
+                    <div class='btn-group'>
+                        <a class='btn' data-role='insertUnorderedList' href='#'><i class='fa fa-list-ul'></i></a>
+                        <a class='btn' data-role='insertOrderedList' href='#'><i class='fa fa-list-ol'></i></a>
                     </div>
                     <div class='btn-group'>
                         <a class='btn' data-role='h1' href='#'>h<sup>1</sup></a>
@@ -228,8 +275,8 @@
                         <a class='btn' data-role='p' href='#'>p</a>
                     </div>
                     <div class='btn-group'>
-                        <a class='btn' data-role='subscript' href='#'><i class='icon-subscript'></i></a>
-                        <a class='btn' data-role='superscript' href='#'><i class='icon-superscript'></i></a>
+                        <a class='btn' data-role='subscript' href='#'><i class='fa fa-subscript'></i></a>
+                        <a class='btn' data-role='superscript' href='#'><i class='fa fa-superscript'></i></a>
                     </div>
                 </div>
                 <div id='editor' class='span12' style='' contenteditable>
@@ -243,6 +290,7 @@
     <button id="sub_btn" class="btn btn-default glyphicon glyphicon-ok" type="button" onclick="submitData()"><span>提交</span></button>
 </div>
 
+<input type="file" id="add" style="filter:alpha(opacity=0);opacity:0;width: 0;height: 0;" onchange="addImage()"/>
 
 </body>
 </html>
