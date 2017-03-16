@@ -80,7 +80,7 @@
     </column>
     <column id="31" parent="14" name="content">
       <Position>7</Position>
-      <DataType>varchar(255)|0</DataType>
+      <DataType>longtext|0</DataType>
     </column>
     <column id="32" parent="14" name="user_id">
       <Position>8</Position>

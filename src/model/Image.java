@@ -15,6 +15,7 @@ public class Image {
     private int id;
     private String content;
     private Integer imageIndex;
+    private Integer postId;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -44,5 +45,32 @@ public class Image {
 
     public void setImageIndex(Integer imageIndex) {
         this.imageIndex = imageIndex;
+    }
+
+    @Basic
+    @Column(name = "post_id", nullable = true)
+    public Integer getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Integer postId) {
+        this.postId = postId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Image image = (Image) o;
+
+        if (postId != null ? !postId.equals(image.postId) : image.postId != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return postId != null ? postId.hashCode() : 0;
     }
 }

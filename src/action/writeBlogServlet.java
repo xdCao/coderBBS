@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 
 
@@ -38,7 +39,11 @@ public class writeBlogServlet extends HttpServlet {
         Transaction transaction=session.beginTransaction();
         session.save(post);
         transaction.commit();
-        session.close();
+        resp.setCharacterEncoding("utf-8");
+        PrintWriter out=resp.getWriter();
+        out.write("ok");
+        out.flush();
+        out.close();
         System.out.println("成功");
     }
 }

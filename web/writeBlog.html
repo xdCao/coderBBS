@@ -116,9 +116,8 @@
 
         function submitData() {
 
-            console.log("submitData: "+document.getElementById("add").files.length);
-
             jQuery.ajax({
+                async:false,
                 type:"POST",
                 dataType:"JSON",
                 url:"/contentPost",
@@ -129,25 +128,38 @@
                 }
             });
 
+//            var postData=new FormData();
+//            postData.append("title",document.getElementById("inputTitle").value);
+//            var req=new XMLHttpRequest();
+//            req.open("POST", "/imageUpload", false);
+//            req.send(postData);
+//            req.onreadystatechange=function () {
+//                console.log("title发送成功");
+//            };
+
 
             var formData=new FormData();
-            for (var i = 0; i < document.getElementById("add").files.length; i++){
-                var file=document.getElementById("add").files.item(i);
-                formData.append("index_"+i,i);
-                formData.append("myImage_"+i,file);
-                console.log("index: "+i+","+file);
-            }
+            formData.append("title",document.getElementById("inputTitle").value);
 
+            for (var i = 0; i < files.length; i++){
+                console.log("文件数目："+files.length);
+                var file=files[i];
+                formData.append("myImage"+i,file);
+                console.log("file:"+file.name);
+            }
 
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 if (xhr.readyState==4&&xhr.status==200){
                     console.log(xhr.responseText);
                     alert("成功");
+
                 }
-            }
+            };
             xhr.open("POST", "/imageUpload", true);
+            console.log("formData:"+formData);
             xhr.send(formData);
+
 
         }
 

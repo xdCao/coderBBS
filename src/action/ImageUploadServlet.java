@@ -20,7 +20,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,34 +47,67 @@ public class ImageUploadServlet extends HttpServlet {
         }
         //遍历字段进行处理
         Iterator iterator = items.iterator();
+        int index=0;
+        Post post=null;
+        String title=null;
+        List<Image> images=new ArrayList<>();
         while(iterator.hasNext()){
             FileItem fileItem =(FileItem)iterator.next();
             if(fileItem.isFormField()){//普通字段
-                    System.out.println("普通字段");
-                    System.out.println(fileItem.getFieldName());
+                    if (fileItem.getFieldName().equals("title")){
+//                        System.out.print(fileItem.getString("utf-8"));
+//                        Session session=Main.getSession();
+//                        Transaction transaction=session.beginTransaction();
+//                        String hql="from Post where title="+"'"+fileItem.getString("utf-8")+"'";
+//                        Query query=session.createQuery(hql);
+//                        List<Post> posts=query.getResultList();
+//                        post=posts.get(0);
+                        title=fileItem.getString("utf-8");
+                    }
             }else{//文件字段
-//                if("myImage".equals(fileItem.getFieldName())){
-//                    System.out.println(fileItem.getName());
-//                    //上传;
-//                    try {
-//                        File file=new File("D:\\myCoderBBSTemp\\",fileItem.getName());
-//                        fileItem.write(file);
-//                        Image image=new Image();
-//                        image.setContent(file.getAbsolutePath());
-//                        image.setImageIndex(1);
+                if(fileItem.getFieldName().equals("myImage"+index)){
+                    System.out.println(fileItem.getName());
+                    //上传;
+                    try {
+                        SimpleDateFormat sdf=new SimpleDateFormat("yyMMddhhmmss");
+                        String currentTime=sdf.format(new Date());
+                        String fName=currentTime+Math.round(100)+"-"+fileItem.getName();//根据时间生成文件名
+                        File file=new File("D:\\myCoderBBSTemp\\",fName);
+                        fileItem.write(file);
+                        Image image=new Image();
+                        image.setContent(file.getAbsolutePath());
+                        image.setImageIndex(index);
 //                        Session session= Main.getSession();
 //                        Transaction transaction=session.beginTransaction();
 //                        session.save(image);
 //                        transaction.commit();
-//                        session.close();
-//
-//
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
+                        images.add(image);
+                        index++;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
+        Session session=Main.getSession();
+        Transaction transaction=session.beginTransaction();
+        String hql="from Post where title="+"'"+title+"'";
+        Query query=session.createQuery(hql);
+        List<Post> posts=query.getResultList();
+        post=posts.get(0);
+
+        for(int i=0;i<images.size();i++){
+            images.get(i).setPostId(post.getId());
+            session.save(images.get(i));
+        }
+        String hql1="from Image where postId="+post.getId();
+        Query query1=session.createQuery(hql1);
+        List<Image> images1=query1.getResultList();
+        for(int i=0;i<images1.size();i++){
+            post.getImagesById().add(images1.get(i));
+        }
+        session.save(session.merge(post));
+        transaction.commit();
         System.out.println("111");
     }
 }
