@@ -49,27 +49,28 @@ public class ImageUploadServlet extends HttpServlet {
             FileItem fileItem =(FileItem)iterator.next();
             if(fileItem.isFormField()){//普通字段
                     System.out.println("普通字段");
+                    System.out.println(fileItem.getFieldName());
             }else{//文件字段
-                if("myImage".equals(fileItem.getFieldName())){
-                    System.out.println(fileItem.getName());
-                    //上传;
-                    try {
-                        File file=new File("D:\\myCoderBBSTemp\\",fileItem.getName());
-                        fileItem.write(file);
-                        Image image=new Image();
-                        image.setContent(file.getAbsolutePath());
-                        image.setImageIndex(1);
-                        Session session= Main.getSession();
-                        Transaction transaction=session.beginTransaction();
-                        session.save(image);
-                        transaction.commit();
-                        session.close();
-
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+//                if("myImage".equals(fileItem.getFieldName())){
+//                    System.out.println(fileItem.getName());
+//                    //上传;
+//                    try {
+//                        File file=new File("D:\\myCoderBBSTemp\\",fileItem.getName());
+//                        fileItem.write(file);
+//                        Image image=new Image();
+//                        image.setContent(file.getAbsolutePath());
+//                        image.setImageIndex(1);
+//                        Session session= Main.getSession();
+//                        Transaction transaction=session.beginTransaction();
+//                        session.save(image);
+//                        transaction.commit();
+//                        session.close();
+//
+//
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
             }
         }
         System.out.println("111");

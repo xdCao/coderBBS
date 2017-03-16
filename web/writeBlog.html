@@ -15,7 +15,7 @@
         #editor {
             margin-left: 10%;
             width: 80%;
-            height: 500px;
+            height: 800px;
             resize:vertical;
             overflow:auto;
             border:1px solid silver;
@@ -24,8 +24,11 @@
             box-shadow: inset 0 0 10px silver;
             padding:1em;
         }
-        #sub_btn{
+        .sub_btn{
+            display: inline;
             margin-left: 80%;
+            width: 100px;
+            height:50px;
         }
         .info_input{
             margin-left: 10%;
@@ -43,9 +46,7 @@
             color: rgb(0, 0, 0);
             font-size: 14px;
         }
-        #addImage{
-            color: #337ab7;
-        }
+
     </style>
 
     <script>
@@ -114,14 +115,8 @@
 
 
         function submitData() {
-//            var req=new XMLHttpRequest();
-//            var url="/contentPost?"+"title="+document.getElementById("inputTitle").value+"&"+"author="+document.getElementById("inputAuthor").value+"&"+"content="+document.getElementById("editor").innerHTML;
-//            req.open("Post",url,true);
-//            req.send();
-//
-//            req.onreadystatechange=function () {
-//                console.log("发送了");
-//            };
+
+            console.log("submitData: "+document.getElementById("add").files.length);
 
             jQuery.ajax({
                 type:"POST",
@@ -132,12 +127,18 @@
                     "author":document.getElementById("inputAuthor").value,
                     "content":document.getElementById("editor").innerHTML
                 }
-            })
+            });
 
-            var file=document.getElementById("add").files.item(0);
+
             var formData=new FormData();
-            formData.append("myImage",file);
-            console.log(file);
+            for (var i = 0; i < document.getElementById("add").files.length; i++){
+                var file=document.getElementById("add").files.item(i);
+                formData.append("index_"+i,i);
+                formData.append("myImage_"+i,file);
+                console.log("index: "+i+","+file);
+            }
+
+
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 if (xhr.readyState==4&&xhr.status==200){
@@ -150,39 +151,67 @@
 
         }
 
-        function selectFile(){
-            //触发 文件选择的click事件
-            $("#add").trigger("click");
-            //其他code如 alert($("#file").attr("value"))
+
+
+        function readFile() {
+            console.log("进入readfile");
+            var input = document.getElementById("add");
+            console.log(this.files.length);
+            for (var i = 0; i < this.files.length; i++) {
+                if (!input['value'].match(/.jpg|.gif|.png|.bmp/i)) {　　//判断上传文件格式
+                    return alert("上传的图片格式不正确，请重新选择");
+                }
+                console.log(files.push(this.files[i]));
+                var reader = new FileReader();
+                reader.readAsDataURL(this.files[i]);
+                reader.onload = function (e) {
+                    console.log("onload");
+                    document.execCommand('insertImage', false, reader.result);
+                }
+            }
         }
 
 
-        function addImage(){  //添加图片
-
-            console.log("addImage");
-            var path = getFileUrl('add');
-            console.log(path);
-
-            document.execCommand('insertImage',false,path);
-
-        }
-
-        /**
-         * 从 file 域获取 本地图片 url
-         */
-        function getFileUrl(sourceId) {
-            var url;
-
-            url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
-
-            return url;
-        }
 
         $(document).ready(function () {
 
-            $("#addImage").click(function () {
-                selectFile();
-            })
+//            $("#add").uploadify({
+//                buttonClass:'btn',
+//                height:50,
+//                width:100,
+//                buttonText:"添加图片",
+//                method:'POST',
+//                queueID: 'fileQueue',
+//                multi:true,
+//                auto:false,
+//                swf:"js/uploadify.swf",
+//                uploader:'/imageUpload',
+//                uploadLimit:10,
+//                removeTimeout:1,
+//                fileSizeLimit:4000,
+//                formData:{
+//                    'index':1,
+//                },
+//                onInit:function(){
+//                    $("div#"+$(this).attr("id")+"-button").removeClass("uploadify-button").addClass("btn btn-default glyphicon glyphicon-picture add");;
+//                },
+//                onUploadSuccess:function (file, data, response) {
+//                    alert("上传成功");
+//                },
+//                onSelect: function(file)
+//                {
+//                    console.log(file);
+//                    readFile(file);
+//                }
+//            });
+            files=new Array();
+
+            document.getElementById("addImage").onclick=function () {
+                $("#add").trigger("click");
+            }
+
+
+            document.getElementById("add").addEventListener('change',readFile,false);
 
             $('#editControls a').click(function(e) {
                 switch($(this).data('role')) {
@@ -200,6 +229,8 @@
             validateLogin();
 
         });
+
+
 
 
     </script>
@@ -261,8 +292,8 @@
                         <a class='btn' data-role='underline' href='#'><u><b>U</b></u></a>
                         <a class='btn' data-role='strikeThrough' href='#'><strike>abc</strike></a>
                     </div>
-                    <div class='btn-group'>
-                        <i id="addImage" class="fa fa-file-image-o btn"></i>
+                    <div>
+                        <a id="addImage" class='btn'><i class='fa fa-file-image-o'></i></a>
                     </div>
                     <div class='btn-group'>
                         <a class='btn' data-role='justifyLeft' href='#'><i class='fa fa-align-left'></i></a>
@@ -296,10 +327,14 @@
 </div>
 <hr>
 <div>
-    <button id="sub_btn" class="btn btn-default glyphicon glyphicon-ok" type="button" onclick="submitData()"><span>提交</span></button>
+    <input name="myImage" multiple type="file" id="add" style="display: none"/>
 </div>
 
-<input name="myImage" type="file" id="add" style="filter:alpha(opacity=0);opacity:0;width: 0;height: 0;" onchange="addImage()"/>
+<div>
+    <button id="sub_btn" class="btn btn-default glyphicon glyphicon-ok sub_btn" type="button" onclick="submitData()"><span>提交</span></button>
+</div>
+
+
 
 </body>
 </html>
