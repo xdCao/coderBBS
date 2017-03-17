@@ -10,13 +10,10 @@
         <!-- <property name="connection.password"/> -->
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
-        <property name="connection.username">root</property>
-        <property name="connection.password">940620</property>
         <property name="connection.pool_size">500</property>
         <property name="hbm2ddl.auto">update</property>
         <property name="show_sql">true</property>
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
-
 
         <property name="hibernate.connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</property>
         <property name="hibernate.c3p0.max_size">200</property>
@@ -26,7 +23,8 @@
         <property name="hibernate.c3p0.idle_test_period">120</property>
         <property name="hibernate.c3p0.acquire_increment">1</property>
 
-
+        <property name="connection.username">root</property>
+        <property name="connection.password">940620</property>
 
 
         <mapping class="model.Post"/>

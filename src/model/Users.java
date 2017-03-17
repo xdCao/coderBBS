@@ -30,7 +30,7 @@ public class Users {
     }
 
     @Basic
-    @Column(name = "password", nullable = false, length = 16)
+    @Column(name = "password", nullable = true, length = 255)
     public String getPassword() {
         return password;
     }
@@ -40,7 +40,7 @@ public class Users {
     }
 
     @Basic
-    @Column(name = "nick", nullable = true, length = 30)
+    @Column(name = "nick", nullable = true, length = 255)
     public String getNick() {
         return nick;
     }
@@ -50,7 +50,7 @@ public class Users {
     }
 
     @Basic
-    @Column(name = "sex", nullable = true, length = 10)
+    @Column(name = "sex", nullable = true, length = 255)
     public String getSex() {
         return sex;
     }
@@ -107,7 +107,7 @@ public class Users {
         return result;
     }
 
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Collection<Post> getPostsById() {
         return postsById;
     }
@@ -115,4 +115,6 @@ public class Users {
     public void setPostsById(Collection<Post> postsById) {
         this.postsById = postsById;
     }
+
+
 }

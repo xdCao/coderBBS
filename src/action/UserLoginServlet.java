@@ -65,11 +65,14 @@ public class UserLoginServlet extends HttpServlet{
             if (currentUser.getPassword().equals(password)){
                 HttpSession httpSession=req.getSession();
                 httpSession.setAttribute("currentUser",currentUser);
+                session.close();
                 return 1;//正确
             }else {
+                session.close();
                 return 2;//密码错误
             }
         }else {
+            session.close();
             return 3;//尚未注册
         }
 

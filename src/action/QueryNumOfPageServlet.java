@@ -31,6 +31,7 @@ public class QueryNumOfPageServlet extends HttpServlet {
         writer.write(String.valueOf(count));
         writer.flush();
         writer.close();
+        session.close();
     }
 
 }

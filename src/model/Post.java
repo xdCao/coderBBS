@@ -16,7 +16,7 @@ public class Post {
     private Integer scan;
     private Integer favor;
     private String content;
-
+    private Integer ownId;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -39,7 +39,7 @@ public class Post {
     }
 
     @Basic
-    @Column(name = "author", nullable = true, length = 30)
+    @Column(name = "author", nullable = true, length = 255)
     public String getAuthor() {
         return author;
     }
@@ -118,5 +118,13 @@ public class Post {
         return result;
     }
 
+    @Basic
+    @Column(name = "own_id", nullable = true)
+    public Integer getOwnId() {
+        return ownId;
+    }
 
+    public void setOwnId(Integer ownId) {
+        this.ownId = ownId;
+    }
 }

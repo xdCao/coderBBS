@@ -2,7 +2,10 @@ package action;
 
 import model.Post;
 import model.Users;
+import org.hibernate.Session;
+import utils.Main;
 
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +24,12 @@ public class isFavorServlet extends HttpServlet {
         PrintWriter out=resp.getWriter();
         Users users= (Users) req.getSession().getAttribute("currentUser");
         if (users!=null){
-            if (users.getPostsById().size()>0){
-                for (Post post:users.getPostsById()){
+            Session session= Main.getSession();
+            String hql="from Users where id="+users.getId();
+            Query query=session.createQuery(hql);
+            Users now= (Users) query.getResultList().get(0);
+            if (now.getPostsById().size()>0){
+                for (Post post:now.getPostsById()){
                     if (id==post.getId()){
                         out.print("favored");
                         out.close();

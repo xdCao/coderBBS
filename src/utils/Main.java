@@ -63,6 +63,7 @@ public class Main {
             System.out.println(jsonArray.toString());
             out.print(jsonArray.toString());
         }
+        session.close();
         out.close();
     }
 
