@@ -3,6 +3,7 @@ package utils;
 import javafx.geometry.Pos;
 import model.Post;
 import net.sf.json.JSONArray;
+import org.apache.commons.collections.map.HashedMap;
 import org.hibernate.*;
 import org.hibernate.query.Query;
 import org.hibernate.cfg.Configuration;
@@ -51,7 +52,14 @@ public class Main {
         if (posts.size()>0){
             Post post=posts.get(0);
             System.out.print(post.getAuthor());
-            JSONArray jsonArray=JSONArray.fromObject(post);
+            Map<String,Object> postMap=new HashedMap();
+            postMap.put("author",post.getAuthor());
+            postMap.put("createDate",post.getCreateDate());
+            postMap.put("favor",post.getFavor());
+            postMap.put("scan",post.getScan());
+            postMap.put("title",post.getTitle());
+            postMap.put("id",post.getId());
+            JSONArray jsonArray=JSONArray.fromObject(postMap);
             System.out.println(jsonArray.toString());
             out.print(jsonArray.toString());
         }

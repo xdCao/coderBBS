@@ -3,6 +3,7 @@ package action;
 import model.Post;
 import model.Users;
 import net.sf.json.JSONArray;
+import org.apache.commons.collections.map.HashedMap;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import utils.Main;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by xdcao on 2017/3/14.
@@ -35,8 +37,14 @@ public class ReadFavoriteServlet extends HttpServlet {
         List<Users> usersList=query.getResultList();
         Users myUser=usersList.get(0);
         Post post= (Post) myUser.getPostsById().toArray()[id];
-
-        JSONArray jsonArray=JSONArray.fromObject(post);
+        Map<String,Object> postMap=new HashedMap();
+        postMap.put("author",post.getAuthor());
+        postMap.put("createDate",post.getCreateDate());
+        postMap.put("favor",post.getFavor());
+        postMap.put("scan",post.getScan());
+        postMap.put("title",post.getTitle());
+        postMap.put("id",post.getId());
+        JSONArray jsonArray=JSONArray.fromObject(postMap);
         out.print(jsonArray.toString());
         System.out.println(jsonArray.toString());
 

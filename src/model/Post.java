@@ -16,7 +16,7 @@ public class Post {
     private Integer scan;
     private Integer favor;
     private String content;
-    private Collection<Image> imagesById;
+
 
     @Id
     @Column(name = "id", nullable = false)
@@ -118,12 +118,5 @@ public class Post {
         return result;
     }
 
-    @OneToMany()
-    public Collection<Image> getImagesById() {
-        return imagesById;
-    }
 
-    public void setImagesById(Collection<Image> imagesById) {
-        this.imagesById = imagesById;
-    }
 }

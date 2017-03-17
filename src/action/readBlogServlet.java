@@ -45,6 +45,7 @@ public class readBlogServlet extends HttpServlet {
 //        updateQuery.executeUpdate();
             session.update(post);
             transaction.commit();
+
             JSONArray jsonArray=JSONArray.fromObject(post);
             out.print(jsonArray.toString());
             out.close();

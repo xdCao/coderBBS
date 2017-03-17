@@ -125,15 +125,15 @@
                 console.log(req.responseText);
                 if(req.readyState==4&&req.status==200) {
                     var post = JSON.parse(req.responseText);
-                    $("#mybody").append("<tr><td class='titleTd'><a id='title_"+(i+1)+"' href='"+"/blogShow.html?id="+(i+1)+"'>"+post[0]["title"]+"</a></td>"
+                    $("#mybody").append("<tr><td class='titleTd'><a id='title_"+(i+1)+"' href='"+"/blogShow.html?id="+post[0]["id"]+"'>"+post[0]["title"]+"</a></td>"
                         +
-                        "<td class='authorTd'><a id='author_"+(i+1)+"' href='"+"/blogShow.html?id="+(i+1)+"'>"+post[0]["author"]+"</a></td>"
+                        "<td class='authorTd'><a id='author_"+(i+1)+"' href='"+"/blogShow.html?id="+post[0]["id"]+"'>"+post[0]["author"]+"</a></td>"
                         +
-                        "<td class='dateTd'><a id='date_"+(i+1)+"' href='"+"/blogShow.html?id="+(i+1)+"'>"+(parseInt(post[0]["createDate"]["year"]) % 100 + 2000) + "-" + (parseInt(post[0]["createDate"]["month"]) + 1) + "-" + post[0]["createDate"]["date"]+"</a></td>"
+                        "<td class='dateTd'><a id='date_"+(i+1)+"' href='"+"/blogShow.html?id="+post[0]["id"]+"'>"+(parseInt(post[0]["createDate"]["year"]) % 100 + 2000) + "-" + (parseInt(post[0]["createDate"]["month"]) + 1) + "-" + post[0]["createDate"]["date"]+"</a></td>"
                         +
-                        "<td class='scanTd'><a id='scan_"+(i+1)+"' href='"+"/blogShow.html?id="+(i+1)+"'>"+post[0]["scan"]+"</a></td>"
+                        "<td class='scanTd'><a id='scan_"+(i+1)+"' href='"+"/blogShow.html?id="+post[0]["id"]+"'>"+post[0]["scan"]+"</a></td>"
                         +
-                        "<td class='saveTd'><a id='save_"+(i+1)+"' href='"+"/blogShow.html?id="+(i+1)+"'>"+post[0]["favor"]+"</a></td></tr>" );
+                        "<td class='saveTd'><a id='save_"+(i+1)+"' href='"+"/blogShow.html?id="+post[0]["id"]+"'>"+post[0]["favor"]+"</a></td></tr>" );
                 }else if (req.status==500){
                     break;
                 }

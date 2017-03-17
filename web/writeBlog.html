@@ -125,6 +125,9 @@
                     "title":document.getElementById("inputTitle").value,
                     "author":document.getElementById("inputAuthor").value,
                     "content":document.getElementById("editor").innerHTML
+                },
+                success:function () {
+                    alert("success");
                 }
             });
 
@@ -138,27 +141,27 @@
 //            };
 
 
-            var formData=new FormData();
-            formData.append("title",document.getElementById("inputTitle").value);
-
-            for (var i = 0; i < files.length; i++){
-                console.log("文件数目："+files.length);
-                var file=files[i];
-                formData.append("myImage"+i,file);
-                console.log("file:"+file.name);
-            }
-
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState==4&&xhr.status==200){
-                    console.log(xhr.responseText);
-                    alert("成功");
-
-                }
-            };
-            xhr.open("POST", "/imageUpload", true);
-            console.log("formData:"+formData);
-            xhr.send(formData);
+//            var formData=new FormData();
+//            formData.append("title",document.getElementById("inputTitle").value);
+//
+//            for (var i = 0; i < files.length; i++){
+//                console.log("文件数目："+files.length);
+//                var file=files[i];
+//                formData.append("myImage"+i,file);
+//                console.log("file:"+file.name);
+//            }
+//
+//            var xhr = new XMLHttpRequest();
+//            xhr.onreadystatechange = function() {
+//                if (xhr.readyState==4&&xhr.status==200){
+//                    console.log(xhr.responseText);
+//                    alert("成功");
+//
+//                }
+//            };
+//            xhr.open("POST", "/imageUpload", true);
+//            console.log("formData:"+formData);
+//            xhr.send(formData);
 
 
         }
