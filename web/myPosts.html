@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link type="text/css" rel="stylesheet" href="js/bootstrap-3.3.5-dist/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <script src="js/http_code.jquery.com_jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="js/bootstrap-3.3.5-dist/dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/jquery.form.js"></script>
+    <script type="text/javascript" src="js/bootbox.js"></script>
+    <meta charset="UTF-8">
+    <title>我的文章</title>
+
+    <style>
+        #welcome{
+            margin-top: 8px;
+            margin-right: 10px;
+            display: none;
+            color: rgb(0, 0, 0);
+            font-size: 14px;
+        }
+        .myTable{
+            margin: 50px 10% 20px 10%;
+        }
+        .titleTd{
+            width: 50%;
+            text-align: center;
+        }
+        .authorTd{
+            width:10%;
+            text-align: center;
+        }
+        .dateTd{
+            width:20%;
+            text-align: center;
+        }
+        .scanTd{
+            width:10%;
+            text-align: center;
+        }
+        .saveTd{
+            width:10%;
+            text-align: center;
+        }
+    </style>
+
+
+    <script>
+        function getUrlParam(name)
+        {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r!=null)return  unescape(r[2]); return null;
+        }
+
+
+        //设置cookie
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            var expires = "expires="+d.toUTCString();
+            document.cookie = cname + "=" + cvalue + "; " + expires;
+        }
+        //获取cookie
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0; i<ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1);
+                if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
+            }
+            return "";
+        }
+        //清除cookie
+        function clearCookie(name) {
+            setCookie(name, "", -1);
+        }
+
+        function validateLogin() {
+
+            var username=getCookie("username");
+            var password=getCookie("password");
+            console.log("cookie: username:"+username);
+            console.log("cookie:password:"+password);
+
+            if(username==null||username==undefined||username==""){
+                username=getUrlParam("username");
+                if(username==null||username==undefined||username==""){}else {
+                    document.getElementById("registGo").style.display="none";
+                    document.getElementById("loginGo").style.display="none";
+                    $("#welcome").text(" ："+username);
+                    document.getElementById("welcome").style.display="inline-block";
+                }
+            }else {
+                console.log("进入请求");
+                var xmlHttpIsLogin=new XMLHttpRequest();
+                xmlHttpIsLogin.open("GET","http://localhost:8080/userlogin?username="+username+"&"+"password="+password,false);
+                xmlHttpIsLogin.send();
+                if (xmlHttpIsLogin.readyState==4 && xmlHttpIsLogin.status==200){
+                    if(xmlHttpIsLogin.responseText=="1"){
+                        document.getElementById("registGo").style.display="none";
+                        document.getElementById("loginGo").style.display="none";
+                        $("#welcome").text(" ："+username);
+                        document.getElementById("welcome").style.display="inline-block";
+                    }
+                }
+            }
+        }
+
+        $(document).ready(function () {
+
+            validateLogin();
+
+            reqMyPostData();
+
+        });
+
+        function reqMyPostData() {
+
+            for(var i=0;;i++){
+                var req=new XMLHttpRequest();
+                req.open("GET","http://localhost:8080/readMyPost?id="+i,false);
+                req.send();
+                console.log(req.responseText);
+                if(req.readyState==4&&req.status==200) {
+                    var post = JSON.parse(req.responseText);
+                    $("#mybody").append("<tr><td class='titleTd'><a id='title_"+(i+1)+"' href='"+"/blogShow.html?id="+post[0]["id"]+"'>"+post[0]["title"]+"</a></td>"
+                        +
+                        "<td class='authorTd'><a id='author_"+(i+1)+"' href='"+"/blogShow.html?id="+post[0]["id"]+"'>"+post[0]["author"]+"</a></td>"
+                        +
+                        "<td class='dateTd'><a id='date_"+(i+1)+"' href='"+"/blogShow.html?id="+post[0]["id"]+"'>"+(parseInt(post[0]["createDate"]["year"]) % 100 + 2000) + "-" + (parseInt(post[0]["createDate"]["month"]) + 1) + "-" + post[0]["createDate"]["date"]+"</a></td>"
+                        +
+                        "<td class='scanTd'><a id='scan_"+(i+1)+"' href='"+"/blogShow.html?id="+post[0]["id"]+"'>"+post[0]["scan"]+"</a></td>"
+                        +
+                        "<td class='saveTd'><a id='save_"+(i+1)+"' href='"+"/blogShow.html?id="+post[0]["id"]+"'>"+post[0]["favor"]+"</a></td></tr>" );
+                }else if (req.status==500){
+                    break;
+                }
+
+
+            }
+
+
+        }
+
+
+    </script>
+
+</head>
+<body>
+
+<nav class="top_bar navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#" style="color: white;">CoderBBS</a>
+        <ul class="nav navbar-nav navbar-left">
+            <li><a id="writeGo" href="#"><span class="glyphicon glyphicon-edit" style="color: white;font-size: 14px">写博客</span></a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <button id="welcome" type="button" class="glyphicon glyphicon-user btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="/favorites.html"><span class="glyphicon glyphicon-star" style="color: rgb(0, 0, 0); font-size: 16px">&nbsp;我的收藏</span></a>
+                    </li>
+                    <li class="divider"></li>
+                    <li >
+                        <a href="#"><span class="glyphicon glyphicon-th-list" style="color: rgb(0, 0, 0);font-size: 16px;">&nbsp;用户信息</span></a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-cog" style="color: rgb(0, 0, 0);font-size: 16px;">&nbsp;设置</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li><a id="registGo"><span class="glyphicon glyphicon-user"></span>注册</a></li>
+            <li><a id="loginGo"><span class="glyphicon glyphicon-log-in"></span>登录</a></li>
+        </ul>
+    </div>
+</nav>
+
+<h1></h1>
+
+<div class="myTable">
+    <table class="table table-hover">
+        <caption style="font-size: 20px">我的文章</caption>
+        <thead>
+        <tr>
+            <th>标题</th>
+            <th>作者</th>
+            <th>发帖日期</th>
+            <th>阅读</th>
+            <th>收藏</th>
+        </tr>
+        </thead>
+        <tbody id="mybody">
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

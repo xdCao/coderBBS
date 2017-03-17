@@ -35,20 +35,25 @@ public class ReadFavoriteServlet extends HttpServlet {
         Query query=session.createQuery(hql);
         List<Users> usersList=query.getResultList();
         Users myUser=usersList.get(0);
-        Post post= (Post) myUser.getPostsById().toArray()[id];
-        Map<String,Object> postMap=new HashedMap();
-        postMap.put("author",post.getAuthor());
-        postMap.put("createDate",post.getCreateDate());
-        postMap.put("favor",post.getFavor());
-        postMap.put("scan",post.getScan());
-        postMap.put("title",post.getTitle());
-        postMap.put("id",post.getId());
-        JSONArray jsonArray=JSONArray.fromObject(postMap);
-        out.print(jsonArray.toString());
-        System.out.println(jsonArray.toString());
+        if (myUser.getPostsById().size()>id){
+            Post post= (Post) myUser.getPostsById().toArray()[id];
+            Map<String,Object> postMap=new HashedMap();
+            postMap.put("author",post.getAuthor());
+            postMap.put("createDate",post.getCreateDate());
+            postMap.put("favor",post.getFavor());
+            postMap.put("scan",post.getScan());
+            postMap.put("title",post.getTitle());
+            postMap.put("id",post.getId());
+            JSONArray jsonArray=JSONArray.fromObject(postMap);
+            out.print(jsonArray.toString());
+            System.out.println(jsonArray.toString());
 
-        transaction.commit();
-        session.close();
-        out.close();
+            transaction.commit();
+            session.close();
+            out.close();
+        }else {
+            return;
+        }
+
     }
 }

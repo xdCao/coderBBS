@@ -26,7 +26,6 @@
         <property name="connection.username">root</property>
         <property name="connection.password">940620</property>
 
-
         <mapping class="model.Post"/>
         <mapping class="model.Users"/>
 

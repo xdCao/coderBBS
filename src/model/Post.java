@@ -17,6 +17,7 @@ public class Post {
     private Integer favor;
     private String content;
     private Integer ownId;
+    private Collection<Users> userssById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -126,5 +127,16 @@ public class Post {
 
     public void setOwnId(Integer ownId) {
         this.ownId = ownId;
+    }
+
+
+
+    @OneToMany(cascade = CascadeType.ALL)
+    public Collection<Users> getUserssById() {
+        return userssById;
+    }
+
+    public void setUserssById(Collection<Users> userssById) {
+        this.userssById = userssById;
     }
 }

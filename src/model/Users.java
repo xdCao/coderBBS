@@ -107,7 +107,7 @@ public class Users {
         return result;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL)
     public Collection<Post> getPostsById() {
         return postsById;
     }
@@ -115,6 +115,4 @@ public class Users {
     public void setPostsById(Collection<Post> postsById) {
         this.postsById = postsById;
     }
-
-
 }

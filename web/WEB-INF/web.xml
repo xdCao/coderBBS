@@ -95,4 +95,14 @@
         <url-pattern>/imageUpload</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>readMyPostServlet</servlet-name>
+        <servlet-class>action.readMyPostServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>readMyPostServlet</servlet-name>
+        <url-pattern>/readMyPost</url-pattern>
+    </servlet-mapping>
+
+
 </web-app>
