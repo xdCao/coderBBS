@@ -22,7 +22,6 @@ import java.util.Map;
  * Created by xdcao on 2017/3/14.
  */
 public class ReadFavoriteServlet extends HttpServlet {
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id=Integer.parseInt(req.getParameter("id"));
