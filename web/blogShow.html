@@ -37,15 +37,29 @@
             margin-left: 5%;
             padding: 5px;
         }
+        #comment{
+            width: 60%;
+            margin-left: 20%;
+        }
+        #myButton{
+            width: 10%;
+            margin-top: 20px;
+            margin-left: 89%;
+            color: black;
+            font-size: 16px;
+        }
     </style>
 
     <script>
+
+
+
         $(document).ready(function () {
 
            validateLogin();
 
            var req=new XMLHttpRequest();
-           var id=getUrlParam("id");
+           id=getUrlParam("id");
            console.log("id= "+id);
            req.open("Get","http://localhost:8080/readBlog?id="+id,true);
            req.send();
@@ -179,6 +193,20 @@
         }
 
 
+        function submitComment() {
+
+            console.log("post id: "+id);
+            var req=new XMLHttpRequest();
+            req.open("POST","http://localhost:8080/commentDealer?id="+id+"&content="+document.getElementById("comment_main").value,true);
+            req.send();
+            req.onreadystatechange=function () {
+                if (req.readyState==4&&req.status==200){
+                    alert("success");
+                }
+            }
+
+        }
+
     </script>
 
 </head>
@@ -187,7 +215,7 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="#" style="color: black;">CoderBBS</a>
         <ul class="nav navbar-nav navbar-left">
-            <li><a id="writeGo" href="#"><span class="glyphicon glyphicon-edit" style="color: white;font-size: 14px">写博客</span></a></li>
+            <li><a id="writeGo" href="#"><span class="glyphicon glyphicon-edit" style="color: black;font-size: 14px">写博客</span></a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li>
@@ -242,6 +270,15 @@
         <div id="mainBody">
             <div id="content"></div>
         </div>
+
+        <div id="comment">
+            <label style="font-size: 18px">评论:</label>
+            <hr>
+            <textarea class="form-control" id="comment_main" rows="6" name="content" style="font-size: 14px">说点什么吧...</textarea>
+
+            <button id="myButton" class="btn btn-default" onclick="submitComment()">提交</button>
+        </div>
+
 
 
     </div>

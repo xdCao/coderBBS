@@ -104,5 +104,14 @@
         <url-pattern>/readMyPost</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>commentDealerServlet</servlet-name>
+        <servlet-class>action.CommentDealerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>commentDealerServlet</servlet-name>
+        <url-pattern>/commentDealer</url-pattern>
+    </servlet-mapping>
+
 
 </web-app>

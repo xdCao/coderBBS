@@ -50,7 +50,7 @@ public class favorOperationServlet extends HttpServlet{
            post.setFavor(1);
         }
         post.setFavor(post.getFavor()+num);
-        session.update(post);
+//        session.update(post);
 
         String userHql="from Users where id="+currentUser.getId();
         Query query1=session.createQuery(userHql);
@@ -65,7 +65,7 @@ public class favorOperationServlet extends HttpServlet{
             now.getPostsById().add(post);
             System.out.println("add add add add add");
         }
-        session.update(session.merge(now));
+        session.update(now);
         transaction.commit();
         session.close();
 

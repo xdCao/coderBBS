@@ -18,6 +18,7 @@ public class Users {
     private Integer age;
     private int id;
     private Collection<Post> postsById;
+    private Collection<Coments> comentssById;
 
     @Basic
     @Column(name = "username", nullable = true, length = 255)
@@ -114,5 +115,14 @@ public class Users {
 
     public void setPostsById(Collection<Post> postsById) {
         this.postsById = postsById;
+    }
+
+    @OneToMany(mappedBy = "usersByUserId")
+    public Collection<Coments> getComentssById() {
+        return comentssById;
+    }
+
+    public void setComentssById(Collection<Coments> comentssById) {
+        this.comentssById = comentssById;
     }
 }

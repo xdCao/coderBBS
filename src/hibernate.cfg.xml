@@ -28,6 +28,7 @@
 
         <mapping class="model.Post"/>
         <mapping class="model.Users"/>
+        <mapping class="model.Coments"/>
 
 
     </session-factory>

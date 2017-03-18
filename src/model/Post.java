@@ -1,6 +1,11 @@
 package model;
 
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Collection;
 import java.util.Date;
 
@@ -17,7 +22,7 @@ public class Post {
     private Integer favor;
     private String content;
     private Integer ownId;
-    private Collection<Users> userssById;
+    private Collection<Coments> comentssById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -129,14 +134,12 @@ public class Post {
         this.ownId = ownId;
     }
 
-
-
-    @OneToMany(cascade = CascadeType.ALL)
-    public Collection<Users> getUserssById() {
-        return userssById;
+    @OneToMany(mappedBy = "postByPostId")
+    public Collection<Coments> getComentssById() {
+        return comentssById;
     }
 
-    public void setUserssById(Collection<Users> userssById) {
-        this.userssById = userssById;
+    public void setComentssById(Collection<Coments> comentssById) {
+        this.comentssById = comentssById;
     }
 }
