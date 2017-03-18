@@ -3,6 +3,7 @@ package action;
 import model.Post;
 import model.Users;
 import net.sf.json.JSONArray;
+import org.apache.commons.collections.map.HashedMap;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import utils.Main;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
+
 
 /**
  * Created by xdcao on 2017/3/12.
@@ -46,7 +49,15 @@ public class readBlogServlet extends HttpServlet {
             session.update(post);
             transaction.commit();
 
-            JSONArray jsonArray=JSONArray.fromObject(post);
+            Map<String,Object> map=new HashedMap();
+            map.put("title",post.getTitle());
+            map.put("author",post.getAuthor());
+            map.put("createDate",post.getCreateDate());
+            map.put("scan",post.getScan());
+            map.put("favor",post.getFavor());
+            map.put("content",post.getContent());
+
+            JSONArray jsonArray=JSONArray.fromObject(map);
             out.print(jsonArray.toString());
             out.close();
             System.out.println(jsonArray.toString());

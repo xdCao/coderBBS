@@ -48,6 +48,25 @@
             color: black;
             font-size: 16px;
         }
+        #showComment{
+            padding: 20px;
+            width: 80%;
+            margin-left: 10%;
+        }
+        .user{
+            font-size: 16px;
+        }
+        .star{
+            margin-left: 80%
+        }
+        .commentMain{
+            font-size: 14px;
+            height: 80px;
+            margin-top: 20px;
+        }
+        .commentDate{
+            font-size: 14px;color: lightslategray;margin-left: 80%;margin-top: 20px
+        }
     </style>
 
     <script>
@@ -103,6 +122,37 @@
                }
 
            });
+
+
+               var commentsReq=new XMLHttpRequest();
+               commentsReq.open("GET","http://localhost:8080/getComments?id="+id,true);
+               commentsReq.send();
+               commentsReq.onreadystatechange=function () {
+                   if(commentsReq.readyState==4&&commentsReq.status==200){
+                       console.log(commentsReq.responseText);
+                       var comment=JSON.parse(commentsReq.responseText);
+                        console.log(comment.length);
+                       for(var i=0;i<comment.length;i++){
+                           $("#showComment").append("<div>" +
+                               " <label class='user'>"+"用户： "+comment[i]["user"]+"</label>" +
+                               "<a><span class='star glyphicon glyphicon-star'>"+comment[i]["star"]+"</span></a>" +
+                               "<span class='commentMain form-control'>"+comment[i]["content"]+"</span>" +
+                               "<label class='commentDate'>"+(parseInt(comment[i]["date"]["year"])%100+2000)+"-"+(parseInt(comment[i]["date"]["month"])+1)+"-"+comment[i]["date"]["day"]
+                               +" "+comment[i]["date"]["hours"]+":"+comment[i]["date"]["minutes"]+":"+comment[i]["date"]["seconds"]+"</label> " +
+                               "</div>");
+                       }
+
+
+//                       document.getElementById("user").innerHTML="用户： "+comment[0]["user"];
+//                       document.getElementById("commentMain").innerHTML=comment[0]["content"];
+//                       document.getElementById("commentDate").innerHTML=(parseInt(comment[0]["date"]["year"])%100+2000)+"-"+(parseInt(comment[0]["date"]["month"])+1)+"-"+comment[0]["date"]["day"]
+//                           +" "+comment[0]["date"]["hours"]+":"+comment[0]["date"]["minutes"]+":"+comment[0]["date"]["seconds"];
+//                       document.getElementById("star").innerHTML=comment[0]["star"];
+                   }
+               }
+
+
+
 
         });
 
@@ -271,6 +321,9 @@
             <div id="content"></div>
         </div>
 
+
+
+
         <div id="comment">
             <label style="font-size: 18px">评论:</label>
             <hr>
@@ -278,7 +331,12 @@
 
             <button id="myButton" class="btn btn-default" onclick="submitComment()">提交</button>
         </div>
+        <hr>
+        <hr>
+        <div id="showComment">
 
+        </div>
+    </div>
 
 
     </div>

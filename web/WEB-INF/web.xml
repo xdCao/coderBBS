@@ -113,5 +113,13 @@
         <url-pattern>/commentDealer</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>getCommentsServlet</servlet-name>
+        <servlet-class>action.GetCommentsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getCommentsServlet</servlet-name>
+        <url-pattern>/getComments</url-pattern>
+    </servlet-mapping>
 
 </web-app>
