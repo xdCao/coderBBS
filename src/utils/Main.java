@@ -1,7 +1,9 @@
 package utils;
 
 import javafx.geometry.Pos;
+import model.Coments;
 import model.Post;
+import model.Reply;
 import net.sf.json.JSONArray;
 import org.apache.commons.collections.map.HashedMap;
 import org.hibernate.*;
@@ -66,5 +68,15 @@ public class Main {
         session.close();
         out.close();
     }
+
+//    public static void main(String[] args){
+//        Session session=Main.getSession();
+//        Transaction transaction=session.beginTransaction();
+//        String hql="from Coments where id=1";
+//        javax.persistence.Query query=session.createQuery(hql);
+//        Coments coments= (Coments) query.getResultList().get(0);
+//        Reply reply= (Reply) coments.getRepliesById().toArray()[0];
+//        System.out.println(reply.getContent());
+//    }
 
 }

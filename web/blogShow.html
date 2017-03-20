@@ -54,10 +54,13 @@
             margin-left: 10%;
         }
         .user{
+            display: inline-block;
             font-size: 16px;
+            width: 200px;
         }
         .star{
-            margin-left: 80%
+            display: inline;
+            margin-left: 60%
         }
         .commentMain{
             font-size: 14px;
@@ -65,13 +68,35 @@
             margin-top: 20px;
         }
         .commentDate{
-            font-size: 14px;color: lightslategray;margin-left: 80%;margin-top: 20px
+            display: inline;
+            font-size: 14px;color: lightslategray;margin-left: 60%;margin-top: 20px
         }
+        .replyButton{
+            margin-top: 5px;
+            padding: 2px 2px;
+            margin-left: 50px;
+        }
+        .replyUser{
+            color: lightslategray;
+            font-size: 10px;
+        }
+        .replyMain{
+            margin-left: 15%;
+            width:70%;
+            font-size: 10px;
+            height: 50px;
+        }
+        .hideReply{
+            display: none;
+        }
+        .expandReply{
+        }
+
     </style>
 
     <script>
 
-
+        var username;
 
         $(document).ready(function () {
 
@@ -108,7 +133,7 @@
                         $("#favor").text("尚未登录");
                     }
                 }
-            }
+            };
 
 
             //收藏
@@ -133,28 +158,84 @@
                        var comment=JSON.parse(commentsReq.responseText);
                         console.log(comment.length);
                        for(var i=0;i<comment.length;i++){
-                           $("#showComment").append("<div>" +
-                               " <label class='user'>"+"用户： "+comment[i]["user"]+"</label>" +
-                               "<a><span class='star glyphicon glyphicon-star'>"+comment[i]["star"]+"</span></a>" +
-                               "<span class='commentMain form-control'>"+comment[i]["content"]+"</span>" +
-                               "<label class='commentDate'>"+(parseInt(comment[i]["date"]["year"])%100+2000)+"-"+(parseInt(comment[i]["date"]["month"])+1)+"-"+comment[i]["date"]["day"]
-                               +" "+comment[i]["date"]["hours"]+":"+comment[i]["date"]["minutes"]+":"+comment[i]["date"]["seconds"]+"</label> " +
-                               "</div>");
+                           console.log("i: "+i);
+                           $("#showComment").append("<div id='comment_"+comment[i]["id"]+"'>" +
+                               "<a href='userinfo.html?hisName="+comment[i]["user"]+"'><label class='user'>"+"用户： "+comment[i]["user"]+"</label></a>" +
+                               "<a><span id='star_"+comment[i]["id"]+"' class='star glyphicon glyphicon-thumbs-up btn btn-default' onclick='increStar("+comment[i]["id"]+","+comment[i]["star"]+")'>"+comment[i]["star"]+"</span></a>" +
+                               "<span class='commentMain form-control'>"+comment[i]["content"]+"</span>"+
+                               "<button class='btn btn-default replyButton glyphicon glyphicon-edit' onclick='reply("+comment[i]["id"]+")'>reply</button> " +
+                               "<a><span id='arrow' class='glyphicon glyphicon-arrow-down' style='margin-left: 30%' onclick='hideReply("+i+")'></span></a>"+
+                               "<label class='commentDate'>"+(parseInt(comment[i]["date"]["year"])%100+2000)+"-"+(parseInt(comment[i]["date"]["month"])+1)+"-"+comment[i]["date"]["date"]
+                               +" "+comment[i]["date"]["hours"]+":"+comment[i]["date"]["minutes"]+":"+comment[i]["date"]["seconds"]+"</label>" +
+                               "</div><hr>");
+
+                               for(var k=0;k<comment[i]["replys"].length;k++){
+                                   $("#showComment").append("<div class='hideReply hideReply_"+i+"'>" +
+                                       "<a href='userinfo.html?hisName="+comment[i]["replys"][k]["username"]+"'><label class='replyUser'>"+comment[i]["replys"][k]["username"]+"回复:"+"</label></a>"+
+                                       "<span class='replyMain form-control'>"+comment[i]["replys"][k]["content"]+"</span>"+
+                                       "</div>");
+                               }
+                           $("#showComment").append("<hr>");
+
                        }
 
-
-//                       document.getElementById("user").innerHTML="用户： "+comment[0]["user"];
-//                       document.getElementById("commentMain").innerHTML=comment[0]["content"];
-//                       document.getElementById("commentDate").innerHTML=(parseInt(comment[0]["date"]["year"])%100+2000)+"-"+(parseInt(comment[0]["date"]["month"])+1)+"-"+comment[0]["date"]["day"]
-//                           +" "+comment[0]["date"]["hours"]+":"+comment[0]["date"]["minutes"]+":"+comment[0]["date"]["seconds"];
-//                       document.getElementById("star").innerHTML=comment[0]["star"];
+                  
+//             
                    }
-               }
+               };
 
 
 
 
         });
+
+
+
+        function hideReply(i) {
+            if ($(".hideReply_"+i).hasClass("hideReply")){
+                $(".hideReply_"+i).removeClass("hideReply");
+                $("#arrow").removeClass("glyphicon-arrow-down").addClass("glyphicon-arrow-up");
+            }else {
+                $(".hideReply_"+i).addClass("hideReply");
+                $("#arrow").removeClass("glyphicon-arrow-up").addClass("glyphicon-arrow-down");
+            }
+
+        }
+
+        function reply(commentId) {
+            $("#comment_"+commentId).append("<div id='reply'>" +
+                " <label style='font-size: 14px'>回复:</label>" +
+                " <textarea class='form-control' id='reply_main' rows='2' name='content' style='font-size: 12px'></textarea> " +
+                "<button id='subReply' class='btn btn-default replyButton glyphicon glyphicon-send' onclick='submitReply("+commentId+")'>发送</button> </div>")
+        }
+        
+        function submitReply(commentId) {
+            var req=new XMLHttpRequest();
+            req.open("GET","http://localhost:8080/saveReply?commentId="+commentId+"&username="+username+"&content="+
+                document.getElementById("reply_main").value,true);
+            req.send();
+            req.onreadystatechange=function () {
+                if (req.readyState==4&&req.status==200){
+                    alert("success");
+                }
+            }
+        }
+
+        function increStar(starId,star) {
+            var starReq=new XMLHttpRequest();
+            starReq.open("GET","http://localhost:8080/starIncre?id="+starId,true);
+            starReq.send();
+            starReq.onreadystatechange=function () {
+                if(starReq.readyState==4&&starReq.status==200){
+                    if(starReq.responseText==1){
+                        console.log("star: "+star)
+                        console.log(document.getElementById("star_"+starId));
+                        document.getElementById("star_"+starId).innerHTML=star+1;
+                    }
+                }
+            }
+        }
+
 
         function incrementFavor(num) {
             var id=getUrlParam("id");
@@ -213,8 +294,8 @@
 
         function validateLogin() {
 
-            var username=getCookie("username");
-            var password=getCookie("password");
+            username=getCookie("username");
+            password=getCookie("password");
             console.log("cookie: username:"+username);
             console.log("cookie:password:"+password);
 
@@ -331,16 +412,18 @@
 
             <button id="myButton" class="btn btn-default" onclick="submitComment()">提交</button>
         </div>
-        <hr>
-        <hr>
-        <div id="showComment">
 
-        </div>
+        <hr>
+        <hr>
+
+        <div id="showComment"></div>
+
+
     </div>
 
 
-    </div>
 </div>
+
 
 
 

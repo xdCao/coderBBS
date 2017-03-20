@@ -2,6 +2,7 @@ package model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -15,6 +16,7 @@ public class Coments {
     private Integer star;
     private Users usersByUserId;
     private Post postByPostId;
+    private Collection<Reply> repliesById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -98,5 +100,14 @@ public class Coments {
 
     public void setPostByPostId(Post postByPostId) {
         this.postByPostId = postByPostId;
+    }
+
+    @OneToMany(mappedBy = "comentsByCommentId")
+    public Collection<Reply> getRepliesById() {
+        return repliesById;
+    }
+
+    public void setRepliesById(Collection<Reply> repliesById) {
+        this.repliesById = repliesById;
     }
 }

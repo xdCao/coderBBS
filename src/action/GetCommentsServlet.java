@@ -2,6 +2,7 @@ package action;
 
 import jdk.internal.dynalink.linker.LinkerServices;
 import model.Coments;
+import model.Reply;
 import net.sf.json.JSONArray;
 import org.apache.commons.collections.map.HashedMap;
 import org.hibernate.Session;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,13 +39,25 @@ public class GetCommentsServlet extends HttpServlet {
         Query query=session.createQuery(hql);
         List<Coments> comentss=query.getResultList();
         List<Map<String,Object>> list=new ArrayList<>();
+
         if(comentss.size()>0){
             for (Coments coments:comentss){
                 Map<String,Object> map=new HashedMap();
+                map.put("id",coments.getId());
                 map.put("user",coments.getUsersByUserId().getUsername());
                 map.put("content",coments.getContent());
                 map.put("date",coments.getCreateDate());
                 map.put("star",coments.getStar());
+                List<Map<String,Object>> replyList=new ArrayList<>();
+                for (Reply reply:coments.getRepliesById()){
+                    Map<String,Object> map1=new HashedMap();
+                    map1.put("id",reply.getId());
+                    map1.put("content",reply.getContent());
+                    map1.put("date",reply.getCreateDate());
+                    map1.put("username",reply.getUsername());
+                    replyList.add(map1);
+                }
+                map.put("replys",replyList);
                 list.add(map);
             }
             JSONArray jsonArray=JSONArray.fromObject(list);

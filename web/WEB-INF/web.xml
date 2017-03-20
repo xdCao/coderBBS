@@ -122,4 +122,32 @@
         <url-pattern>/getComments</url-pattern>
     </servlet-mapping>
 
+
+    <servlet>
+        <servlet-name>StarIncreServlet</servlet-name>
+        <servlet-class>action.StarIncreServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StarIncreServlet</servlet-name>
+        <url-pattern>/starIncre</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>HisInfoServlet</servlet-name>
+        <servlet-class>action.HisInfoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HisInfoServlet</servlet-name>
+        <url-pattern>/hisinfo</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SaveReplyServlet</servlet-name>
+        <servlet-class>action.SaveReplyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SaveReplyServlet</servlet-name>
+        <url-pattern>/saveReply</url-pattern>
+    </servlet-mapping>
+
 </web-app>
