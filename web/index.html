@@ -145,6 +145,9 @@
             color: rgb(0, 0, 0);
             font-size: 14px;
         }
+        .commentGo{
+            display: none;
+        }
 
     </style>
 
@@ -159,7 +162,16 @@
         var password=null;
         $(document).ready(function () {
 
+            $(window).bind('beforeunload',function(){
+                var logout=new XMLHttpRequest();
+                logout.open("POST","http://localhost:8080/logout?username="+username,true);
+                logout.send();
+            });
+
+
             validateLogin();
+
+            isNewReply();
 
             //轮播设置
             $('.carousel').carousel({
@@ -180,7 +192,10 @@
                 }else {
                     location.assign("/writeBlog.html?username="+username);
                 }
-            })
+            });
+            $("#commentGo").click(function () {
+               location.assign("/myComment.html");
+            });
             //准备ajaxform
             var loginOptions={
                 success:showLoginResponse
@@ -204,7 +219,27 @@
             reqInfo();
 
 
+
         });
+
+
+
+//这个功能还没想好
+        function isNewReply() {
+
+            var req=new XMLHttpRequest();
+            req.open("GET","http://localhost:8080/isNewReply?username="+username,true);
+            req.send();
+            req.onreadystatechange=function () {
+                if(req.readyState==4&&req.status==200){
+                    if (req.responseText=="1"){
+                        document.getElementById("message").style.display="inline-block";
+                    }
+                }
+            }
+
+        }
+
         //登录后的回调函数
         function showLoginResponse(responseText,statusText){
 
@@ -250,6 +285,7 @@
                 document.getElementById("loginGo").style.display="none";
                 $("#welcome").text(" ："+username);
                 document.getElementById("welcome").style.display="block";
+                $("#commentGo").removeClass("commentGo");
             }
         }else {
             console.log("进入请求");
@@ -405,6 +441,8 @@
         <a class="navbar-brand" href="#" style="color: white;">CoderBBS</a>
         <ul class="nav navbar-nav navbar-left">
             <li><a id="writeGo" href="#"><span class="glyphicon glyphicon-edit" style="color: white;font-size: 14px">写博客</span></a></li>
+            <li><a id="commentGo" class="commentGo" href="#"><span class="glyphicon glyphicon-book" style="color: white;font-size: 14px">我的评论</span></a></li>
+            <li><a><span id="message"  class="glyphicon glyphicon-eye-open" style="display:none;color: red;font-size: 12px">您有新的回复</span></a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li>

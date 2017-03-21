@@ -87,6 +87,12 @@
 
         $(document).ready(function () {
 
+            $(window).bind('beforeunload',function(){
+                var logout=new XMLHttpRequest();
+                logout.open("POST","http://localhost:8080/logout?username="+username,true);
+                logout.send();
+            });
+
            validateLogin();
 
            var hisName=getUrlParam("hisName");

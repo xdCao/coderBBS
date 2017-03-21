@@ -150,4 +150,23 @@
         <url-pattern>/saveReply</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>IsNewReplyServlet</servlet-name>
+        <servlet-class>action.IsNewReplyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IsNewReplyServlet</servlet-name>
+        <url-pattern>/isNewReply</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>action.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+
 </web-app>

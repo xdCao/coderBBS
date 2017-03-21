@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 
 /**
@@ -19,6 +20,18 @@ public class Users {
     private int id;
     private Collection<Post> postsById;
     private Collection<Coments> comentssById;
+
+    public void setLasttime(Date lasttime) {
+        this.lasttime = lasttime;
+    }
+    @Basic
+    @Column(name = "last_time")
+    public Date getLasttime() {
+
+        return lasttime;
+    }
+
+    private Date lasttime;
 
     @Basic
     @Column(name = "username", nullable = true, length = 255)
