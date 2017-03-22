@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:mysql://localhost:3306/coderbbs</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <!-- <property name="connection.username"/> -->
+        <!-- <property name="connection.password"/> -->
+        <!-- DB schema will be updated if needed -->
+        <!-- <property name="hbm2ddl.auto">update</property> -->
+        <property name="connection.pool_size">500</property>
+        <property name="hbm2ddl.auto">update</property>
+        <property name="show_sql">true</property>
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <property name="hibernate.connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</property>
+        <property name="hibernate.c3p0.max_size">200</property>
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.timeout">120</property>
+        <property name="hibernate.c3p0.max_statements">100</property>
+        <property name="hibernate.c3p0.idle_test_period">120</property>
+        <property name="hibernate.c3p0.acquire_increment">1</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">940620</property>
+
+        <!--&lt;!&ndash;配置二级缓存ehcache&ndash;&gt;-->
+        <!--<property name="cache.use_query_cache">true</property>-->
+        <!--<property name="cache.use_second_level_cache">true</property>-->
+        <!--<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>-->
+        <!--<property name="hibernate.cache.provider_configuration_file_resource_path">ehcache.xml</property>-->
+
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+        <property name="cache.use_second_level_cache">true</property>
+
+        <mapping class="main.java.model.Post"/>
+        <mapping class="main.java.model.Users"/>
+        <mapping class="main.java.model.Coments"/>
+        <mapping class="main.java.model.Reply"/>
+
+
+    </session-factory>
+</hibernate-configuration>
