@@ -1,25 +1,18 @@
 package main.java.utils;
 
-import javafx.geometry.Pos;
-import main.java.model.Coments;
 import main.java.model.Post;
-import main.java.model.Reply;
 import net.sf.json.JSONArray;
 import org.apache.commons.collections.map.HashedMap;
 import org.hibernate.*;
-import org.hibernate.query.Query;
 import org.hibernate.cfg.Configuration;
 
-import javax.persistence.metamodel.EntityType;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by xdcao on 2017/3/9.
@@ -31,7 +24,7 @@ public class Main {
     static {
         try {
             Configuration configuration = new Configuration();
-            configuration.configure();
+            configuration.configure("hibernate.cfg.xml");
 
             ourSessionFactory = configuration.buildSessionFactory();
         } catch (Throwable ex) {

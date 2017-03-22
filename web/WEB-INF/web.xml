@@ -7,7 +7,7 @@
 
     <servlet>
         <servlet-name>mainServlet</servlet-name>
-        <servlet-class>action.PageInfoServlet</servlet-class>
+        <servlet-class>main.java.action.PageInfoServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>mainServlet</servlet-name>
@@ -16,7 +16,7 @@
 
     <servlet>
         <servlet-name>MaxPageServlet</servlet-name>
-        <servlet-class>action.QueryNumOfPageServlet</servlet-class>
+        <servlet-class>main.java.action.QueryNumOfPageServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>MaxPageServlet</servlet-name>
@@ -25,7 +25,7 @@
 
     <servlet>
         <servlet-name>userLoginServlet</servlet-name>
-        <servlet-class>action.UserLoginServlet</servlet-class>
+        <servlet-class>main.java.action.UserLoginServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>userLoginServlet</servlet-name>
@@ -34,7 +34,7 @@
 
     <servlet>
         <servlet-name>readBlogServlet</servlet-name>
-        <servlet-class>action.readBlogServlet</servlet-class>
+        <servlet-class>main.java.action.readBlogServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>readBlogServlet</servlet-name>
@@ -43,7 +43,7 @@
 
     <servlet>
         <servlet-name>writeBlogServlet</servlet-name>
-        <servlet-class>action.writeBlogServlet</servlet-class>
+        <servlet-class>main.java.action.writeBlogServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>writeBlogServlet</servlet-name>
@@ -52,7 +52,7 @@
 
     <servlet>
         <servlet-name>userRegistServlet</servlet-name>
-        <servlet-class>action.UserRegistServlet</servlet-class>
+        <servlet-class>main.java.action.UserRegistServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>userRegistServlet</servlet-name>
@@ -61,7 +61,7 @@
 
     <servlet>
         <servlet-name>favorOperationServlet</servlet-name>
-        <servlet-class>action.favorOperationServlet</servlet-class>
+        <servlet-class>main.java.action.favorOperationServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>favorOperationServlet</servlet-name>
@@ -70,7 +70,7 @@
 
     <servlet>
         <servlet-name>isFavorServlet</servlet-name>
-        <servlet-class>action.isFavorServlet</servlet-class>
+        <servlet-class>main.java.action.isFavorServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>isFavorServlet</servlet-name>
@@ -79,7 +79,7 @@
 
     <servlet>
         <servlet-name>readFavoriteServlet</servlet-name>
-        <servlet-class>action.ReadFavoriteServlet</servlet-class>
+        <servlet-class>main.java.action.ReadFavoriteServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>readFavoriteServlet</servlet-name>
@@ -88,7 +88,7 @@
 
     <servlet>
         <servlet-name>ImageUploadServlet</servlet-name>
-        <servlet-class>action.ImageUploadServlet</servlet-class>
+        <servlet-class>main.java.action.ImageUploadServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ImageUploadServlet</servlet-name>
@@ -97,7 +97,7 @@
 
     <servlet>
         <servlet-name>readMyPostServlet</servlet-name>
-        <servlet-class>action.readMyPostServlet</servlet-class>
+        <servlet-class>main.java.action.readMyPostServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>readMyPostServlet</servlet-name>
@@ -106,7 +106,7 @@
 
     <servlet>
         <servlet-name>commentDealerServlet</servlet-name>
-        <servlet-class>action.CommentDealerServlet</servlet-class>
+        <servlet-class>main.java.action.CommentDealerServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>commentDealerServlet</servlet-name>
@@ -115,7 +115,7 @@
 
     <servlet>
         <servlet-name>getCommentsServlet</servlet-name>
-        <servlet-class>action.GetCommentsServlet</servlet-class>
+        <servlet-class>main.java.action.GetCommentsServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>getCommentsServlet</servlet-name>
@@ -125,7 +125,7 @@
 
     <servlet>
         <servlet-name>StarIncreServlet</servlet-name>
-        <servlet-class>action.StarIncreServlet</servlet-class>
+        <servlet-class>main.java.action.StarIncreServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>StarIncreServlet</servlet-name>
@@ -134,7 +134,7 @@
 
     <servlet>
         <servlet-name>HisInfoServlet</servlet-name>
-        <servlet-class>action.HisInfoServlet</servlet-class>
+        <servlet-class>main.java.action.HisInfoServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HisInfoServlet</servlet-name>
@@ -143,7 +143,7 @@
 
     <servlet>
         <servlet-name>SaveReplyServlet</servlet-name>
-        <servlet-class>action.SaveReplyServlet</servlet-class>
+        <servlet-class>main.java.action.SaveReplyServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SaveReplyServlet</servlet-name>
@@ -152,7 +152,7 @@
 
     <servlet>
         <servlet-name>IsNewReplyServlet</servlet-name>
-        <servlet-class>action.IsNewReplyServlet</servlet-class>
+        <servlet-class>main.java.action.IsNewReplyServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>IsNewReplyServlet</servlet-name>
@@ -161,7 +161,7 @@
 
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>action.LogoutServlet</servlet-class>
+        <servlet-class>main.java.action.LogoutServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
